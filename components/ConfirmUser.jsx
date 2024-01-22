@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function ConfirmUser() {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+
+  const router = useRouter(); // Get the router instance
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,9 +18,14 @@ export default function ConfirmUser() {
         "http://localhost:27017/Duolingo/api/users/login",
         formData
       );
+
+      if (user) {
+        router.push("../pages/index.jsx/" + user.data.username); // Use router.push to navigate
+      }
+
       console.log("Data sent successfully");
-    } catch (user) {
-      console.error("Error sending data:", user);
+    } catch (error) {
+      console.error("Error sending data:", error);
     }
   };
 
