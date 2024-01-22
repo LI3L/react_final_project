@@ -12,9 +12,19 @@ export default function logIn() {
           alignItems: "center",
         }}
       >
-        <input type="text" name="mail" className="inputText" placeholder="enter mail"/>
-        <input type="text" name="password" className="inputText" placeholder="enter password" />
-        <button style={{margin:"10px"}}>Log In</button>
+        <input
+          type="text"
+          name="mail"
+          className="inputText"
+          placeholder="enter mail"
+        />
+        <input
+          type="text"
+          name="password"
+          className="inputText"
+          placeholder="enter password"
+        />
+        <button style={{ margin: "10px" }}>Log In</button>
       </div>
     </>
   );
