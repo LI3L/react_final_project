@@ -1,15 +1,54 @@
+/* Login.css */
+.logInPage {
+}
 body {
-  height: 100%;
-  background-color: red;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("../utils/backgraund.png") center/cover no-repeat; /* Replace 'your-background-image.jpg' with the actual image URL */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.container {
-  height: 540px;
-  background-color: blue;
+.login-container {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Add a semi-transparent white background for better readability */
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-.inputText {
-  height: 30px;
-  width: 200px;
-  margin: 10px;
+.login-box {
+  text-align: center;
+  padding: 60px; /* Increase the padding for a larger box */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 16px; /* Adjust margin for labels */
+  font-size: 18px; /* Adjust font size for labels */
+}
+
+input {
+  padding: 16px; /* Adjust padding for input fields */
+  margin-bottom: 24px; /* Adjust margin for input fields */
+  font-size: 16px; /* Adjust font size for input fields */
+}
+
+button {
+  padding: 18px; /* Adjust padding for the button */
+  font-size: 18px; /* Adjust font size for the button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }

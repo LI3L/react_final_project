@@ -1,18 +1,8 @@
 import { useState } from "react";
-// import {ListHead} from "../components/ListHead.jsx";
-
-
-const wordList = ["apple", "banana", "home", "dog", "class"];
 
 export default function index() {
-  
-  
-
   return (
     <>
-
-
-
       {/* <div style={{ display: "flex" }}>
         <div style={{ flex: "1", border: "1px solid black" }}>
           <div style={{ display: "flex" }}>
