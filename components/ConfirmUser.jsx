@@ -14,13 +14,14 @@ export default function ConfirmUser() {
     e.preventDefault();
 
     try {
-      const user = await axios.post(
+      const respons = await axios.post(
         "http://localhost:27017/Duolingo/api/users/login",
         formData
       );
+        const user =await respons.json();
 
       if (user) {
-        router.push("../pages/index.jsx/" + user.data.username); // Use router.push to navigate
+        router.push("../pages/index.jsx/" + user.name); // Use router.push to navigate
       }
 
       console.log("Data sent successfully");
