@@ -1,22 +1,11 @@
 import Layout from "../components/Layout/loginLayout";
-
-// import Layout from "../components/Layout/loginLayout";
-
-// export default function MyApp({ Component, pageProps }) {
-//   return (
-//     <Layout>
-//       <Component {...pageProps} />
-//     </Layout>
-//   );
-// }
-
+import "../styles/global.css";
+//import bootstrap from 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function MyApp({ Component, pageProps }) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page);
 
-  return getLayout(
-      <Component {...pageProps} />
-  );
+  return getLayout(<Component {...pageProps} />);
 }
-

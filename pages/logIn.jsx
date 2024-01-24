@@ -1,12 +1,11 @@
 import { useState } from "react";
-import NavBar from "../components/navbar";
+import CustomNavbar from "../components/navbar";
 import Layout from "../components/Layout/loginLayout";
 import ConfirmUser from "../components/ConfirmUser";
 
 export default function logIn() {
   return (
     <>
-      <ConfirmUser />
       {/* <div className="logInPage">
         <div className={styles.loginContainer}>
           <div className="loginBox">
