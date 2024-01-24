@@ -21,7 +21,7 @@ function CustomNavbar({ user }) {
                 <Nav.Link href="../login">LogIn</Nav.Link>
               </>
             )}
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+            <NavDropdown title="Levels" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">easy</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">medium</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">hard</NavDropdown.Item>
