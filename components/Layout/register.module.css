@@ -27,27 +27,27 @@
 
 .registerBox {
   text-align: center;
-  padding: 60px; /* Increase the padding for a larger box */
+  padding: 50px; /* Increase the padding for a larger box */
 }
 
-.getData {
+.getDataFrom {
   display: flex;
   flex-direction: column;
 }
 
 .getLable {
-  margin-bottom: 16px; /* Adjust margin for labels */
+  margin-bottom: 8px; /* Adjust margin for labels */
   font-size: 18px; /* Adjust font size for labels */
 }
 
 .mailPawwordInput {
-  padding: 8px; /* Adjust padding for input fields */
-  margin-bottom: 24px; /* Adjust margin for input fields */
+  padding: 4px; /* Adjust padding for input fields */
+  margin-bottom: 12px; /* Adjust margin for input fields */
   font-size: 16px; /* Adjust font size for input fields */
 }
 
-.loginButton {
-  padding: 18px; /* Adjust padding for the button */
+.registerButton {
+  padding: 9px; /* Adjust padding for the button */
   font-size: 18px; /* Adjust font size for the button */
   background-color: #007bff;
   color: #fff;

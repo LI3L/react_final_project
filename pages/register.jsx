@@ -1,16 +1,15 @@
 import { useState } from "react";
 import Layout from "../components/Layout/registerLayout";
-import Register from "../components/register";
+import RegisterUser from "../components/registerUser";
 
-export default function Register() {
+export default function register() {
   return (
     <>
-      <Register/>
-      
+      <RegisterUser />
     </>
   );
 }
 
-Register.getLayout = function getLayout(page) {
+register.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
