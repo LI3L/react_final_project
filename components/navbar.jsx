@@ -9,7 +9,6 @@ function CustomNavbar({ user }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="../">Home</Nav.Link>
             {user ? (
               <>
                 <Nav.Link href="../user">{user}</Nav.Link>
