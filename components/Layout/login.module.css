@@ -1,0 +1,57 @@
+.logInPage {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("../../utils/backgraund.png") center/cover no-repeat;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.loginContainer {
+  background: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Add a semi-transparent white background for better readability */
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.loginBox {
+  text-align: center;
+  padding: 60px; /* Increase the padding for a larger box */
+}
+
+.getData {
+  display: flex;
+  flex-direction: column;
+}
+
+.getLable {
+  margin-bottom: 16px; /* Adjust margin for labels */
+  font-size: 18px; /* Adjust font size for labels */
+}
+
+.mailPawwordInput {
+  padding: 8px; /* Adjust padding for input fields */
+  margin-bottom: 24px; /* Adjust margin for input fields */
+  font-size: 16px; /* Adjust font size for input fields */
+}
+
+.loginButton {
+  padding: 18px; /* Adjust padding for the button */
+  font-size: 18px; /* Adjust font size for the button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

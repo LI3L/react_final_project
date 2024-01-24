@@ -1,8 +1,8 @@
-/* Login.css */
+/* Login.css
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: url("../utils/backgraund.png") center/cover no-repeat; /* Replace 'your-background-image.jpg' with the actual image URL */
+  background: url("../utils/backgraund.png") center/cover no-repeat; 
   height: 100vh;
   display: flex;
   align-items: center;
@@ -15,14 +15,14 @@ body {
     255,
     255,
     0.8
-  ); /* Add a semi-transparent white background for better readability */
+  );
   border-radius: 16px;
   overflow: hidden;
 }
 
 .login-box {
   text-align: center;
-  padding: 60px; /* Increase the padding for a larger box */
+  padding: 60px; 
 }
 
 form {
@@ -31,22 +31,22 @@ form {
 }
 
 label {
-  margin-bottom: 16px; /* Adjust margin for labels */
-  font-size: 18px; /* Adjust font size for labels */
+  margin-bottom: 16px; 
+  font-size: 18px; 
 }
 
 input {
-  padding: 16px; /* Adjust padding for input fields */
-  margin-bottom: 24px; /* Adjust margin for input fields */
-  font-size: 16px; /* Adjust font size for input fields */
+  padding: 16px; 
+  margin-bottom: 24px; 
+  font-size: 16px; 
 }
 
 button {
-  padding: 18px; /* Adjust padding for the button */
-  font-size: 18px; /* Adjust font size for the button */
+  padding: 18px; 
+  font-size: 18px; 
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-}
+} */

@@ -4,10 +4,8 @@ import { useRouter } from "next/router";
 
 export default function Home() {
   const router = useRouter();
-
+  const user =router.query.user;
   return (
-    <>
-      <NavBar />
-    </>
+    <h1>{user}</h1>
   );
 }

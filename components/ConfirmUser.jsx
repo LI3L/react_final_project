@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import styles from "./Layout/login.module.css";
+
+const axiosInstance = axios.create({
+  validateStatus: (status) => status < 500,
+});
 
 export default function ConfirmUser() {
   const [formData, setFormData] = useState({
-    username: "",
+    mail: "",
     password: "",
   });
+  const [worngValue, setWorngValue] = useState("");
 
   const router = useRouter(); // Get the router instance
 
@@ -14,14 +20,17 @@ export default function ConfirmUser() {
     e.preventDefault();
 
     try {
-      const respons = await axios.post(
-        "http://localhost:27017/Duolingo/api/users/login",
+      const respons = await axiosInstance.post(
+        "http://localhost:3001/api/users/login",
         formData
       );
-        const user =await respons.json();
-
+      console.log(respons);
+      const user = respons.data;
+      console.log(user);
       if (user) {
-        router.push("../pages/index.jsx/" + user.name); // Use router.push to navigate
+        router.push("../" + user);
+      } else {
+        setWorngValue("Wrong username or password");
       }
 
       console.log("Data sent successfully");
@@ -31,6 +40,7 @@ export default function ConfirmUser() {
   };
 
   const handleChange = (e) => {
+    e.preventDefault();
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -38,26 +48,46 @@ export default function ConfirmUser() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
+    <div className={styles.logInPage} style={{ flexDirection: "column" }}>
+      <div className={styles.loginContainer}>
+        <h2>Login</h2>
+        <form className={styles.getData} onSubmit={handleSubmit}>
+          <label className={styles.getLable}>
+            Username:
+            <input
+              className={styles.mailPawwordInput}
+              type="text"
+              name="mail"
+              value={formData.mail}
+              onChange={handleChange}
+            />
+          </label>
+          <label className={styles.getLable}>
+            Password:
+            <input
+              className={styles.mailPawwordInput}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </label>
+          <button className={styles.loginButton} type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+      <label className={styles.getLable} style={{ color: "red" }}>
+        {worngValue}
       </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    </div>
   );
 }
+
+ConfirmUser.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      <NestedLayout>{page}</NestedLayout>
+    </Layout>
+  );
+};

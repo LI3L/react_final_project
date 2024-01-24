@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@bigheads/core": "^0.3.3",
+    "axios": "^1.6.5",
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",
     "next": "^14.0.4",

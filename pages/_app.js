@@ -1,5 +1,22 @@
-import "../styles/global.css";
+import Layout from "../components/Layout/loginLayout";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+// import Layout from "../components/Layout/loginLayout";
+
+// export default function MyApp({ Component, pageProps }) {
+//   return (
+//     <Layout>
+//       <Component {...pageProps} />
+//     </Layout>
+//   );
+// }
+
+
+export default function MyApp({ Component, pageProps }) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout || ((page) => page);
+
+  return getLayout(
+      <Component {...pageProps} />
+  );
 }
+
