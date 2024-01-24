@@ -20,6 +20,13 @@ function CustomNavbar({ user }) {
               <>
                 <Nav.Link href="../user">{user}</Nav.Link>
                 <Nav.Link href="../">LogOut</Nav.Link>
+                <NavDropdown title="Levels" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.1">easy</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">medium</NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.3">hard</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">Random</NavDropdown.Item>
+                </NavDropdown>
               </>
             ) : (
               <>
@@ -27,13 +34,6 @@ function CustomNavbar({ user }) {
                 <Nav.Link href="../login">LogIn</Nav.Link>
               </>
             )}
-            <NavDropdown title="Levels" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">easy</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">medium</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">hard</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Random</NavDropdown.Item>
-            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>
