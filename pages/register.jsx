@@ -1,7 +1,6 @@
 import { useState } from "react";
-import NavBar from "../components/navbar";
-import Layout from "../components/Layout/loginLayout";
-import ConfirmUser from "../components/register";
+import Layout from "../components/Layout/registerLayout";
+import Register from "../components/register";
 
 export default function Register() {
   return (

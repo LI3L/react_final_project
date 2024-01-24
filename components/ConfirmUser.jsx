@@ -20,15 +20,14 @@ export default function ConfirmUser() {
     e.preventDefault();
 
     try {
-      const respons = await axiosInstance.post(
+      const response = await axiosInstance.post(
         "http://localhost:3001/api/users/login",
         formData
       );
-      console.log(respons);
-      const user = respons.data;
+      const user = response.data;
       console.log(user);
       if (user) {
-        router.push("../" + user);
+        router.push("../" + user._id);
       } else {
         setWorngValue("Wrong username or password");
       }

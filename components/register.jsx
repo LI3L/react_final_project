@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Registration = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    axios.post("http://localhost:3001/api/users/",{name: name,mail:mail,password:password} )
     // Add your registration logic here
-    console.log("Registration data:", { username, email, password });
+    console.log("Registration data:", { name: name, mail: mail, password });
   };
 
   return (
@@ -24,17 +27,17 @@ const Registration = () => {
         <h2>Register</h2>
         <input
           type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          placeholder="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
         />
         <br />
         <input
           type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Mail"
+          value={mail}
+          onChange={(e) => setMail(e.target.value)}
           required
         />
         <br />
