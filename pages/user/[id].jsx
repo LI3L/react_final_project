@@ -26,7 +26,8 @@ export default function Home() {
 
   return (
     <>
-      <CustomNavbar />
+      <CustomNavbar> {user.name}</CustomNavbar>
+      <h1>Hello {user.name}</h1>
     </>
   );
 }

@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
-function CustomNavbar() {
+function CustomNavbar(user) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -13,7 +13,17 @@ function CustomNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="../">Home</Nav.Link>
-            <Nav.Link href="../login">login</Nav.Link>
+            {user ? (
+              <>
+                <Nav.Link href="../register">Register</Nav.Link>
+                <Nav.Link href="../login">LogIn</Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link href="../user">User</Nav.Link>
+                <Nav.Link href="../">LogOut</Nav.Link>
+              </>
+            )}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">

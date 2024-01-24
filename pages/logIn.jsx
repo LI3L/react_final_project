@@ -43,5 +43,5 @@ export default function logIn() {
 }
 
 logIn.getLayout = function getLayout(page) {
-  return <Layout>{page}</Layout>;
+  return <ConfirmUser />;
 };
