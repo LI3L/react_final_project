@@ -51,7 +51,7 @@ export default function ConfirmUser() {
     <div className={styles.logInPage} style={{ flexDirection: "column" }}>
       <div className={styles.loginContainer}>
         <h2>Login</h2>
-        <form className={styles.getData} onSubmit={handleSubmit}>
+        <form className={styles.getDataForm} onSubmit={handleSubmit}>
           <label className={styles.getLable}>
             Username:
             <input

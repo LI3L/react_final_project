@@ -1,4 +1,4 @@
-.logInPage {
+.registerPage {
   margin: 0;
   font-family: Arial, sans-serif;
   background: url("../../utils/backgraund.png") center/cover no-repeat;
@@ -14,7 +14,7 @@
   bottom: 0;
 }
 
-.loginContainer {
+.registerContainer {
   background: rgba(
     255,
     255,
@@ -25,12 +25,12 @@
   overflow: hidden;
 }
 
-.loginBox {
+.registerBox {
   text-align: center;
   padding: 60px; /* Increase the padding for a larger box */
 }
 
-.getDataForm {
+.getData {
   display: flex;
   flex-direction: column;
 }
