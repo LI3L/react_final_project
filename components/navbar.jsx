@@ -3,9 +3,16 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
 function CustomNavbar({ user }) {
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    //navbar color darkblue
+    <Navbar
+      expand="lg"
+      className="bg-body-custom"
+      style={{ backgroundColor: "#89e219" }}
+    >
       <Container>
-        <Navbar.Brand href="#home">Duolingo</Navbar.Brand>
+        <Navbar.Brand href="#home" style={{ color: "#4b4b4b" }}>
+          Duolingo
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
