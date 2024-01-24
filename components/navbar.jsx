@@ -1,10 +1,7 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
-function CustomNavbar(user) {
+function CustomNavbar({ user }) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -15,13 +12,13 @@ function CustomNavbar(user) {
             <Nav.Link href="../">Home</Nav.Link>
             {user ? (
               <>
-                <Nav.Link href="../register">Register</Nav.Link>
-                <Nav.Link href="../login">LogIn</Nav.Link>
+                <Nav.Link href="../user">{user}</Nav.Link>
+                <Nav.Link href="../">LogOut</Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link href="../user">User</Nav.Link>
-                <Nav.Link href="../">LogOut</Nav.Link>
+                <Nav.Link href="../register">Register</Nav.Link>
+                <Nav.Link href="../login">LogIn</Nav.Link>
               </>
             )}
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
