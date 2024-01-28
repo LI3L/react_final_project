@@ -13,12 +13,7 @@ function CustomNavbar({ user }) {
           style={{ backgroundColor: "#89e219" }}
         >
           <Container>
-            <Image
-              src="/img/duolingo-logo.png"
-              alt="logo"
-              width={50}
-              height={50}
-            />
+            <Image src="/duolingo.jpg" alt="logo" width={50} height={50} />
 
             <Navbar.Brand id="titel" href="#home" style={{ color: "#4b4b4b" }}>
               Duolingo
