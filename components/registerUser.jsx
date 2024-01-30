@@ -17,15 +17,15 @@ export default function RegisterUser() {
     try {
       const result = await axios.post(
         "http://localhost:3001/api/users/exists",
-        mail
+        { mail: mail }
       );
       exists = result.data;
       console.log(exists);
     } catch (err) {
       console.log(err);
     }
-
-    if (!exists) {
+    console.log(exists);
+    if (exists == false) {
       axios.post("http://localhost:3001/api/users/", {
         name: name,
         mail: mail,
