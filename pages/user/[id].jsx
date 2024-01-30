@@ -25,12 +25,19 @@ export default function Home() {
   }, []);
   const handleNavbarData = (dataFromNavbar) => {
     // Do something with the data received from CustomNavbar
-    console.log('Data from CustomNavbar:', dataFromNavbar);
+    console.log("Data from CustomNavbar:", dataFromNavbar);
   };
   return (
-    <>
-      <CustomNavbar user={user.name} onNavbarData={handleNavbarData}/>
-      <h1>Hello {user.name}</h1>
-    </>
+    getUser(),
+    (
+      <>
+        <CustomNavbar
+          user={user.name}
+          userid={userId}
+          onNavbarData={handleNavbarData}
+        />
+        <h1>Hello {user.name}</h1>
+      </>
+    )
   );
 }

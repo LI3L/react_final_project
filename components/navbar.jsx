@@ -3,10 +3,7 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function CustomNavbar({ user, onNavbarData }) {
-  const sendDataToParent = (data) => {
-    onNavbarData(data);
-  };
+function CustomNavbar({ user, userid }) {
   return (
     <>
       <div id="navbar">
@@ -17,10 +14,12 @@ function CustomNavbar({ user, onNavbarData }) {
         >
           <Container>
             <Image src="/duolingo.jpg" alt="logo" width={50} height={50} />
+            {user ? (
+              <Navbar.Brand href={"../user/" + userid}>Duolingo</Navbar.Brand>
+            ) : (
+              <Navbar.Brand href="../">Duolingo</Navbar.Brand>
+            )}
 
-            <Navbar.Brand id="titel" href="#home" style={{ color: "#4b4b4b" }}>
-              Duolingo
-            </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
@@ -29,19 +28,13 @@ function CustomNavbar({ user, onNavbarData }) {
                     <Nav.Link href="../user">{user}</Nav.Link>
                     <Nav.Link href="../">LogOut</Nav.Link>
                     <NavDropdown title="Levels" id="basic-nav-dropdown">
-                      <NavDropdown.Item
-                        onClick={() => sendDataToParent("easy")}
-                      >
+                      <NavDropdown.Item href="#action/3.1">
                         easy
                       </NavDropdown.Item>
-                      <NavDropdown.Item
-                        onClick={() => sendDataToParent("medium")}
-                      >
+                      <NavDropdown.Item href="#action/3.2">
                         medium
                       </NavDropdown.Item>
-                      <NavDropdown.Item
-                        onClick={() => sendDataToParent("hard")}
-                      >
+                      <NavDropdown.Item href="#action/3.3">
                         hard
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
