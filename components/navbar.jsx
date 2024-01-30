@@ -3,7 +3,10 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function CustomNavbar({ user, userid }) {
+function CustomNavbar({ user, userid, onNavbarData }) {
+  const sendDataToParent = (data) => {
+    onNavbarData(data);
+  };
   return (
     <>
       <div id="navbar">
@@ -28,17 +31,25 @@ function CustomNavbar({ user, userid }) {
                     <Nav.Link href="../user/">{user}</Nav.Link>
                     <Nav.Link href="../">LogOut</Nav.Link>
                     <NavDropdown title="Levels" id="basic-nav-dropdown">
-                      <NavDropdown.Item href="#action/3.1">
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("easy")}
+                      >
                         easy
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.2">
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("medium")}
+                      >
                         medium
                       </NavDropdown.Item>
-                      <NavDropdown.Item href="#action/3.3">
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("hard")}
+                      >
                         hard
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
-                      <NavDropdown.Item onClick={() => sendDataToParent("hard")}>
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("random")}
+                      >
                         Random
                       </NavDropdown.Item>
                     </NavDropdown>

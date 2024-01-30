@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "./Layout/register.module.css";
 import axios from "axios";
+import Level from "./level.jsx";
 
-export default function GetDiff({ dif }) {
+export default function GetDiff({ dif,userId }) {
   return (
     <div>
-      <h1>{dif}</h1>
       {dif == "easy" ? (
         <div>
+            <Level userId={userId} dif={dif}/>
           <h1>easy</h1>
         </div>
       ) : dif == "medium" ? (
@@ -17,11 +18,15 @@ export default function GetDiff({ dif }) {
         </div>
       ) : dif == "hard" ? (
         <div>
-          <h1>medium</h1>
+          <h1>hard</h1>
+        </div>
+      ) : dif == "random" ? (
+        <div>
+          <h1>random</h1>
         </div>
       ) : (
         <div>
-          <h1>random</h1>
+          <h1>no dif</h1>
         </div>
       )}
     </div>

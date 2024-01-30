@@ -8,7 +8,7 @@ export default function Home() {
   const router = useRouter();
   const userId = router.query.id;
   const [user, setUser] = useState({});
-  let dif = "";
+  const [dif, setDif] = useState("");
 
   async function getUser() {
     try {
@@ -26,14 +26,15 @@ export default function Home() {
     getUser();
   }, []);
   const handleNavbarData = (dataFromNavbar) => {
-    dif = dataFromNavbar;
+    setDif(dataFromNavbar);
     // Do something with the data received from CustomNavbar
-    console.log("Data from CustomNavbar:", dataFromNavbar);
+    console.log("Data from CustomNavbar:", dif);
   };
   return (
+    getUser(),
     <>
-      <CustomNavbar user={user.name} onNavbarData={handleNavbarData}/>
-      <h1>Hello {user.name}</h1>
+      <CustomNavbar user={user.name} userid={userId} onNavbarData={handleNavbarData}/>
+      <GetDiff dif={dif} userId={userId}/>
     </>
   );
 }
