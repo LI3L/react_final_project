@@ -25,7 +25,7 @@ function CustomNavbar({ user, userid }) {
               <Nav className="me-auto">
                 {user ? (
                   <>
-                    <Nav.Link href="../user">{user}</Nav.Link>
+                    <Nav.Link href="../user/">{user}</Nav.Link>
                     <Nav.Link href="../">LogOut</Nav.Link>
                     <NavDropdown title="Levels" id="basic-nav-dropdown">
                       <NavDropdown.Item href="#action/3.1">
@@ -38,7 +38,7 @@ function CustomNavbar({ user, userid }) {
                         hard
                       </NavDropdown.Item>
                       <NavDropdown.Divider />
-                      <NavDropdown.Item href="#action/3.4">
+                      <NavDropdown.Item onClick={() => sendDataToParent("hard")}>
                         Random
                       </NavDropdown.Item>
                     </NavDropdown>
