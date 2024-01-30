@@ -23,10 +23,13 @@ export default function Home() {
   useEffect(() => {
     getUser();
   }, []);
-
+  const handleNavbarData = (dataFromNavbar) => {
+    // Do something with the data received from CustomNavbar
+    console.log('Data from CustomNavbar:', dataFromNavbar);
+  };
   return (
     <>
-      <CustomNavbar user={user.name} />
+      <CustomNavbar user={user.name} onNavbarData={handleNavbarData}/>
       <h1>Hello {user.name}</h1>
     </>
   );
