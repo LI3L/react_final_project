@@ -4,21 +4,21 @@ import styles from "./Layout/register.module.css";
 import axios from "axios";
 import Level from "./level.jsx";
 
-export default function GetDiff({ dif,userId }) {
+export default function GetDiff({ dif }) {
+  console.log("GetDiff");
   return (
     <div>
       {dif == "easy" ? (
         <div>
-            <Level userId={userId} dif={dif}/>
-          <h1>easy</h1>
+          <Level dif={dif} />
         </div>
       ) : dif == "medium" ? (
         <div>
-          <h1>medium</h1>
+          <Level dif={dif} />
         </div>
       ) : dif == "hard" ? (
         <div>
-          <h1>hard</h1>
+          <Level dif={dif} />
         </div>
       ) : dif == "random" ? (
         <div>

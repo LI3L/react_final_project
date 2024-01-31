@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "./Layout/login.module.css";
+import { useUser } from "./UserContext";
 
 const axiosInstance = axios.create({
   validateStatus: (status) => status < 500,
 });
 
 export default function ConfirmUser() {
+
   const [formData, setFormData] = useState({
     mail: "",
     password: "",
@@ -24,10 +26,10 @@ export default function ConfirmUser() {
         "http://localhost:3001/api/users/login",
         formData
       );
-      const user = response.data;
-      console.log(user);
-      if (user) {
-        router.push("../user/" + user._id);
+      const logedinUser = response.data;
+      console.log(logedinUser);
+      if (logedinUser) {
+        router.push("../user/" + logedinUser._id);
       } else {
         setWorngValue("Wrong username or password");
       }

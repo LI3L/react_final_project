@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import CustomNavbar from "../../components/navbar";
 import GetDiff from "../../components/getDiff.jsx";
+import { useUser } from "../../components/UserContext";
 
 export default function Home() {
   const router = useRouter();
   const userId = router.query.id;
-  const [user, setUser] = useState({});
+  const { user: contextUser, setUser: setContextUser } = useUser();
   const [dif, setDif] = useState("");
 
   async function getUser() {
@@ -16,25 +17,27 @@ export default function Home() {
         const response = await axios.get(
           "http://localhost:3001/api/users/" + userId
         );
-        setUser(response.data);
+        setContextUser(response.data);
       }
     } catch (err) {
       console.log(err);
     }
   }
+
   useEffect(() => {
     getUser();
   }, []);
+
   const handleNavbarData = (dataFromNavbar) => {
     setDif(dataFromNavbar);
     // Do something with the data received from CustomNavbar
     console.log("Data from CustomNavbar:", dif);
   };
+
   return (
-    getUser(),
     <>
-      <CustomNavbar user={user.name} userid={userId} onNavbarData={handleNavbarData}/>
-      <GetDiff dif={dif} userId={userId}/>
+      <CustomNavbar onNavbarData={handleNavbarData} />
+      <GetDiff dif={dif} />
     </>
   );
 }
