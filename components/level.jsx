@@ -59,8 +59,9 @@ export default function Level({ dif }) {
   const getRandomInt = (min, max) => {
     let num = Math.floor(Math.random() * (max - min) + min);
     let end = false;
-    while (user.words[dif].includes(words[num].name)) {
-      if (user.words[dif].length == words.length) {
+    console.log("--------------------" + JSON.stringify(words[num]));
+    while (user && words && user.words[dif].includes(words[num].name)) {
+      if (user && words && user.words[dif].length == words.length) {
         end = true;
         break;
       }
