@@ -44,7 +44,7 @@ export default function Level({ dif }) {
         const response = await axios.get(
           "http://localhost:3001/api/words/byDifficulty/" + dif
         );
-
+        console.log("getWords: " + JSON.stringify(response.data));
         setWords(response.data);
       }
     } catch (err) {
@@ -55,6 +55,7 @@ export default function Level({ dif }) {
 
   useEffect(() => {
     getWords();
+    console.log("words------" + JSON.stringify(words));
   }, []);
   const getRandomInt = (min, max) => {
     let num = Math.floor(Math.random() * (max - min) + min);

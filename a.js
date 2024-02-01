@@ -196,5 +196,35 @@ const words = [
         "difficulty": "hard",
         "translation": "חולשה",
         "points": 20
+    },{
+        "name": "mountain",
+        "difficulty": "medium",
+        "translation": "הר",
+        "points": 15
+    },{
+        "name": "ocean",
+        "difficulty": "medium",
+        "translation": "אוקיינוס",
+        "points": 15
+    },{
+        "name": "symphony",
+        "difficulty": "medium",
+        "translation": "סימפוניה",
+        "points": 15
+    },{
+        "name": "rainbow",
+        "difficulty": "medium",
+        "translation": "קשת",
+        "points": 15
+    },{
+        "name": "marathon",
+        "difficulty": "medium",
+        "translation": "מרתון",
+        "points": 15
+    },{
+        "name": "galaxy",
+        "difficulty": "medium",
+        "translation": "גלקסיה",
+        "points": 15
     }
 ];
