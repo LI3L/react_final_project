@@ -63,6 +63,23 @@ function CustomNavbar({ onNavbarData }) {
                         Random
                       </NavDropdown.Item>
                     </NavDropdown>
+                    <NavDropdown title="Sentences" id="basic-nav-dropdown">
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("Seasy")}
+                      >
+                        easy
+                      </NavDropdown.Item>
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("Smedium")}
+                      >
+                        medium
+                      </NavDropdown.Item>
+                      <NavDropdown.Item
+                        onClick={() => sendDataToParent("Shard")}
+                      >
+                        hard
+                      </NavDropdown.Item>
+                    </NavDropdown>
                   </>
                 ) : (
                   <>
