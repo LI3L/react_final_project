@@ -79,17 +79,19 @@ export default function sentences({ dif }) {
   }, [dif]);
 
   const getRandomInt = (min, max) => {
+    let num = Math.floor(Math.random() * (max - min) + min);
     let end = false;
     while (
       user &&
       sentences.length > 0 &&
-      user.words[dif].includes(sentences[num].name)
+      user.sentences[dif].includes(sentences[num].sentence)
     ) {
       if (user && sentences && user.sentences[dif].length == sentences.length) {
         end = true;
         break;
+      } else {
+        num = Math.floor(Math.random() * (max - min) + min);
       }
-      num = Math.floor(Math.random() * (max - min) + min);
     }
     if (end) {
       return -1;
