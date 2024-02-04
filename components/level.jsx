@@ -46,6 +46,7 @@ export default function Level({ dif }) {
         );
         console.log("getWords: " + JSON.stringify(response.data));
         setWords(response.data);
+        console.log("words------" + JSON.stringify(words));
       }
     } catch (err) {
       console.log(err);
