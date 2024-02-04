@@ -1,8 +1,8 @@
 import { useUser } from "./UserContext";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Dropdown } from "react-bootstrap";
-import 
+import { Container, Dropdown } from "react-bootstrap";
+import "./Layout/UserPage.module.css";
 
 export default function UserPage(dif) {
   const { user, setUser: setContextUser } = useUser();
@@ -46,46 +46,64 @@ export default function UserPage(dif) {
       <div className="dropdowns-container">
         <div className="dropdown-section">
           <h2>Words:</h2>
-          <Dropdown title="easy" id="basic-dropdown">
-            {words_easy.map((word) => (
-              <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
-            ))}
-          </Dropdown>
-          <Dropdown title="medium" id="basic-dropdown">
-            {words_medium.map((word) => (
-              <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
-            ))}
-          </Dropdown>
-          <Dropdown title="hard" id="basic-dropdown">
-            {words_hard.map((word) => (
-              <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
-            ))}
-          </Dropdown>
+          <Container>
+            <Dropdown title="easy" id="basic-dropdown1">
+              {words_easy.map((word) => (
+                <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
+              ))}
+              {words_easy.length === 0 && <p>No words found for easy level</p>}
+            </Dropdown>
+            <Dropdown title="medium" id="basic-dropdown2">
+              {words_medium.map((word) => (
+                <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
+              ))}
+              {words_medium.length === 0 && (
+                <p>No words found for medium level</p>
+              )}
+            </Dropdown>
+            <Dropdown title="hard" id="basic-dropdown3">
+              {words_hard.map((word) => (
+                <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
+              ))}
+              {words_hard.length === 0 && <p>No words found for hard level</p>}
+            </Dropdown>
+          </Container>
         </div>
 
         <div className="dropdown-section">
           <h2>Sentences:</h2>
-          <Dropdown title="easy" id="basic-dropdown">
-            {sentences_easy.map((sentence) => (
-              <Dropdown.Item key={sentence.id}>
-                {sentence.sentence}
-              </Dropdown.Item>
-            ))}
-          </Dropdown>
-          <Dropdown title="medium" id="basic-dropdown">
-            {sentences_medium.map((sentence) => (
-              <Dropdown.Item key={sentence.id}>
-                {sentence.sentence}
-              </Dropdown.Item>
-            ))}
-          </Dropdown>
-          <Dropdown title="hard" id="basic-dropdown">
-            {sentences_hard.map((sentence) => (
-              <Dropdown.Item key={sentence.id}>
-                {sentence.sentence}
-              </Dropdown.Item>
-            ))}
-          </Dropdown>
+          <Container>
+            <Dropdown title="easy" id="basic-dropdown4">
+              {sentences_easy.map((sentence) => (
+                <Dropdown.Item key={sentence.id}>
+                  {sentence.sentence}
+                </Dropdown.Item>
+              ))}
+              {sentences_easy.length === 0 && (
+                <p>No sentences found for easy level</p>
+              )}
+            </Dropdown>
+            <Dropdown title="medium" id="basic-dropdown5">
+              {sentences_medium.map((sentence) => (
+                <Dropdown.Item key={sentence.id}>
+                  {sentence.sentence}
+                </Dropdown.Item>
+              ))}
+              {sentences_medium.length === 0 && (
+                <p>No sentences found for medium level</p>
+              )}
+            </Dropdown>
+            <Dropdown title="hard" id="basic-dropdown6">
+              {sentences_hard.map((sentence) => (
+                <Dropdown.Item key={sentence.id}>
+                  {sentence.sentence}
+                </Dropdown.Item>
+              ))}
+              {sentences_hard.length === 0 && (
+                <p>No sentences found for hard level</p>
+              )}
+            </Dropdown>
+          </Container>
         </div>
       </div>
     </div>
