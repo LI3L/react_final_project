@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
 
 export default function Level({ dif }) {
   const { user, setUser: setContextUser } = useUser();
   const [words, setWords] = useState([]);
-  const [radomWordIndex, setRadomWordIndex] = useState(0);
+  const [randomWordIndex, setRadomWordIndex] = useState(0);
   const [answer, setAnswer] = useState("");
 
-  console.log("LEVEL " + JSON.stringify(user) + " " + dif);
   async function updateWords() {
-    console.log();
     try {
       const response = await axios.post(
         "http://localhost:3001/api/users/addWord/" + user._id,
         {
-          word: words[radomWordIndex].name,
+          word: words[randomWordIndex].name,
           difficulty: dif,
         }
       );
-      console.log("updateWords");
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +27,7 @@ export default function Level({ dif }) {
         "http://localhost:3001/api/users/addPoints",
         {
           userId: user._id,
-          points: words[radomWordIndex].points,
+          points: words[randomWordIndex].points,
         }
       );
       console.log("updatePoints");
@@ -44,25 +41,28 @@ export default function Level({ dif }) {
         const response = await axios.get(
           "http://localhost:3001/api/words/byDifficulty/" + dif
         );
-        console.log("getWords: " + JSON.stringify(response.data));
         setWords(response.data);
-        console.log("words------" + JSON.stringify(words));
+        setRadomWordIndex(getRandomInt(0, response.data.length));
       }
     } catch (err) {
       console.log(err);
     }
-    setRadomWordIndex(getRandomInt(0, words.length));
   }
 
   useEffect(() => {
-    getWords();
-    console.log("words------" + JSON.stringify(words));
-  }, []);
+    const fetchData = async () => await getWords();
+
+    fetchData();
+  }, [dif]);
+
   const getRandomInt = (min, max) => {
     let num = Math.floor(Math.random() * (max - min) + min);
     let end = false;
-    console.log("--------------------" + JSON.stringify(words[num]));
-    while (user && words && user.words[dif].includes(words[num].name)) {
+    while (
+      user &&
+      words.length > 0 &&
+      user.words[dif].includes(words[num].name)
+    ) {
       if (user && words && user.words[dif].length == words.length) {
         end = true;
         break;
@@ -75,20 +75,16 @@ export default function Level({ dif }) {
     return num;
   };
   const checkWord = () => {
-    console.log(answer);
-    console.log(words);
-    console.log(radomWordIndex);
-    console.log(words[radomWordIndex]);
-    if (answer === words[radomWordIndex].translation) {
+    if (answer === words[randomWordIndex].translation) {
       updateWords();
       updatePoints();
       setRadomWordIndex(getRandomInt(0, words.length));
       setContextUser({
         ...user,
-        points: user.points + words[radomWordIndex].points,
+        points: user.points + words[randomWordIndex].points,
         words: {
           ...user.words,
-          [dif]: [...user.words[dif], words[radomWordIndex].name],
+          [dif]: [...user.words[dif], words[randomWordIndex].name],
         },
       });
       setAnswer("");
@@ -112,9 +108,9 @@ export default function Level({ dif }) {
       }}
     >
       <h1>
-        {radomWordIndex == -1 ? "you finished this level" : ""}
-        {words && radomWordIndex != -1 && words[radomWordIndex]
-          ? words[radomWordIndex].name
+        {randomWordIndex == -1 ? "you finished this level" : ""}
+        {words && randomWordIndex != -1 && words[randomWordIndex]
+          ? words[randomWordIndex].name
           : ""}
       </h1>
       <input

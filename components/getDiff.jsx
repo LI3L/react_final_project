@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import styles from "./Layout/register.module.css";
-import axios from "axios";
+import React from "react";
 import Level from "./level.jsx";
 import Sentences from "./sentences.jsx";
 
