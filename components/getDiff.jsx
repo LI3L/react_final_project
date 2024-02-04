@@ -1,6 +1,7 @@
 import React from "react";
 import Level from "./level.jsx";
 import Sentences from "./sentences.jsx";
+import UserPage from "./userPage.jsx";
 
 export default function GetDiff({ dif }) {
   console.log("GetDiff");
@@ -33,6 +34,10 @@ export default function GetDiff({ dif }) {
       ) : dif == "Shard" ? (
         <div>
           <Sentences dif={"hard"} />
+        </div>
+      ) : dif == "user" ? (
+        <div>
+          <UserPage dif={dif} />
         </div>
       ) : (
         <div>

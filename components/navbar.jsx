@@ -38,7 +38,9 @@ function CustomNavbar({ onNavbarData }) {
               <Nav className="me-auto">
                 {user ? (
                   <>
-                    <Nav.Link href="../user/">{user.name}</Nav.Link>
+                    <Nav.Link onClick={() => sendDataToParent("user")}>
+                      {user.name}
+                    </Nav.Link>
                     <Nav.Link onClick={logout}>LogOut</Nav.Link>
                     <NavDropdown title="Levels" id="basic-nav-dropdown">
                       <NavDropdown.Item
