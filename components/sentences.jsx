@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
-import { set } from "mobx";
 
 export default function sentences({ dif }) {
   const { user, setUser: setContextUser } = useUser();
@@ -20,7 +19,6 @@ export default function sentences({ dif }) {
           difficulty: dif,
         }
       );
-      console.log("updateSentences");
     } catch (err) {
       console.log(err);
     }
@@ -34,7 +32,6 @@ export default function sentences({ dif }) {
           points: sentences[radomSentenceIndex].points,
         }
       );
-      console.log("updatePoints");
     } catch (err) {
       console.log(err);
     }
@@ -45,27 +42,33 @@ export default function sentences({ dif }) {
         const response = await axios.get(
           "http://localhost:3001/api/sentences/difficulty/" + dif
         );
-        console.log("getSentences: " + JSON.stringify(response.data));
         setSentences(response.data);
-        let rndi = getRandomInt(0, response.data.length);
+        let rndi = getRandomInt(0, response.data.length, response.data);
         setRadomSentenceIndex(rndi);
-        let ans =
-          response.data[rndi].sentence.split(" ")[
-            getRandomInt(0, response.data[rndi].sentence.split(" ").length)
-          ];
-        setAnswer(ans);
-        let temp = "";
-        response.data[rndi].sentence.split(" ").map((word) => {
-          if (word === ans) {
-            temp += " " + "____";
-          } else {
-            temp += " " + word;
-          }
-        });
-        setActiveSentence(temp);
-        let tempWords = response.data[rndi].words;
-        tempWords.push(ans);
-        setWords(tempWords);
+        if (rndi != -1) {
+          let ans =
+            response.data[rndi].sentence.split(" ")[
+              getRandomInt(
+                0,
+                response.data[rndi].sentence.split(" ").length,
+                response.data
+              )
+            ];
+          setAnswer(ans);
+          let temp = "";
+          response.data[rndi].sentence.split(" ").map((word) => {
+            if (word === ans) {
+              temp += " " + "____";
+            } else {
+              temp += " " + word;
+            }
+          });
+
+          setActiveSentence(temp);
+          let tempWords = response.data[rndi].words;
+          tempWords.push(ans);
+          setWords(tempWords);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -78,7 +81,7 @@ export default function sentences({ dif }) {
     fetchData();
   }, [dif]);
 
-  const getRandomInt = (min, max) => {
+  const getRandomInt = (min, max, sentences) => {
     let num = Math.floor(Math.random() * (max - min) + min);
     let end = false;
     while (
@@ -100,7 +103,7 @@ export default function sentences({ dif }) {
   };
 
   const checkAnswer = (clicked) => {
-    if (document.getElementById(clicked).value === answer) {
+    if (clicked == answer) {
       updatePoints();
       updateSentences();
       setContextUser({
@@ -114,7 +117,9 @@ export default function sentences({ dif }) {
           ],
         },
       });
+      console.log("updateUser" + user.sentences[dif]);
       getSentences();
+      dif = "easy";
     } else {
       console.log("wrong answer");
     }
@@ -135,19 +140,23 @@ export default function sentences({ dif }) {
       }}
     >
       <h1>
-        {radomSentenceIndex == -1 ? "you finished this level" : ""}
-        {sentences && radomSentenceIndex != -1 && sentences[radomSentenceIndex]
+        {radomSentenceIndex == -1
+          ? "you finished this level"
+          : sentences &&
+            radomSentenceIndex != -1 &&
+            sentences[radomSentenceIndex]
           ? activeSentence
           : ""}
       </h1>
-      {console.log(words)}
-      {words.map((word) => {
-        return (
-          <button id={word} value={word} onClick={() => checkAnswer(word)}>
-            {word}
-          </button>
-        );
-      })}
+      {radomSentenceIndex != -1
+        ? words.map((word, index) => {
+            return (
+              <button key={index} id={word} onClick={() => checkAnswer(word)}>
+                {word}
+              </button>
+            );
+          })
+        : ""}
     </div>
   );
 }
