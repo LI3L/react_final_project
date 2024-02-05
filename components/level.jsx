@@ -42,7 +42,7 @@ export default function Level({ dif }) {
           "http://localhost:3001/api/words/byDifficulty/" + dif
         );
         setWords(response.data);
-        setRadomWordIndex(getRandomInt(0, response.data.length));
+        setRadomWordIndex(getRandomInt(0, response.data.length, response.data));
       }
     } catch (err) {
       console.log(err);
@@ -55,7 +55,7 @@ export default function Level({ dif }) {
     fetchData();
   }, [dif]);
 
-  const getRandomInt = (min, max) => {
+  const getRandomInt = (min, max, words) => {
     let num = Math.floor(Math.random() * (max - min) + min);
     let end = false;
     while (
@@ -78,7 +78,7 @@ export default function Level({ dif }) {
     if (answer === words[randomWordIndex].translation) {
       updateWords();
       updatePoints();
-      setRadomWordIndex(getRandomInt(0, words.length));
+      setRadomWordIndex(getRandomInt(0, words.length, words));
       setContextUser({
         ...user,
         points: user.points + words[randomWordIndex].points,
@@ -128,7 +128,9 @@ export default function Level({ dif }) {
           check
         </button>
         <button
-          onClick={() => setRadomWordIndex(getRandomInt(0, words.length))}
+          onClick={() =>
+            setRadomWordIndex(getRandomInt(0, words.length, words))
+          }
         >
           next
         </button>
