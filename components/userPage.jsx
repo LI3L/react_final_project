@@ -90,31 +90,28 @@ export default function UserPage(dif) {
           <h2>Sentences:</h2>
           <Container>
             <Dropdown title="easy" id="basic-dropdown4">
-              {sentences_easy.map((sentence) => (
-                <Dropdown.Item key={sentence.id}>
-                  {sentence.sentence}
-                </Dropdown.Item>
-              ))}
+              {JSON.stringify(sentences_easy)
+                .replace(/"/g, "")
+                .replace(/[\[\]']+/g, "")
+                .trim()}
               {sentences_easy.length === 0 && (
                 <p>No sentences found for easy level</p>
               )}
             </Dropdown>
             <Dropdown title="medium" id="basic-dropdown5">
-              {sentences_medium.map((sentence) => (
-                <Dropdown.Item key={sentence.id}>
-                  {sentence.sentence}
-                </Dropdown.Item>
-              ))}
+              {JSON.stringify(sentences_medium)
+                .replace(/"/g, "")
+                .replace(/[\[\]']+/g, "")
+                .trim()}
               {sentences_medium.length === 0 && (
                 <p>No sentences found for medium level</p>
               )}
             </Dropdown>
             <Dropdown title="hard" id="basic-dropdown6">
-              {sentences_hard.map((sentence) => (
-                <Dropdown.Item key={sentence.id}>
-                  {sentence.sentence}
-                </Dropdown.Item>
-              ))}
+              {JSON.stringify(sentences_hard)
+                .replace(/"/g, "")
+                .replace(/[\[\]']+/g, "")
+                .trim()}
               {sentences_hard.length === 0 && (
                 <p>No sentences found for hard level</p>
               )}
