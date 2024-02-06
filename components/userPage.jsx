@@ -61,27 +61,43 @@ export default function UserPage(dif) {
           <h2>Words:</h2>
           <Container>
             <Dropdown title="easy" id="basic-dropdown1">
-              {JSON.stringify(words_easy)
-                .replace(/"/g, "")
-                .replace(/[\[\]']+/g, "")
-                .trim()}
-              {words_easy.length === 0 && <p>No words found for easy level</p>}
+              {words_easy.length === 0 ? (
+                <p>No words found for easy level</p>
+              ) : (
+                <p>
+                  easy:
+                  {JSON.stringify(words_easy)
+                    .replace(/"/g, "")
+                    .replace(/[\[\]']+/g, "")
+                    .trim()}
+                </p>
+              )}
             </Dropdown>
             <Dropdown title="medium" id="basic-dropdown2">
-              {JSON.stringify(words_medium)
-                .replace(/"/g, "")
-                .replace(/[\[\]']+/g, "")
-                .trim()}
-              {words_medium.length === 0 && (
+              {words_medium.length === 0 ? (
                 <p>No words found for medium level</p>
+              ) : (
+                <p>
+                  medium:
+                  {JSON.stringify(words_medium)
+                    .replace(/"/g, "")
+                    .replace(/[\[\]']+/g, "")
+                    .trim()}
+                </p>
               )}
             </Dropdown>
             <Dropdown title="hard" id="basic-dropdown3">
-              {JSON.stringify(words_hard)
-                .replace(/"/g, "")
-                .replace(/[\[\]']+/g, "")
-                .trim()}
-              {words_hard.length === 0 && <p>No words found for hard level</p>}
+              {words_hard.length === 0 ? (
+                <p>No words found for hard level</p>
+              ) : (
+                <p>
+                  hard:
+                  {JSON.stringify(words_hard)
+                    .replace(/"/g, "")
+                    .replace(/[\[\]']+/g, "")
+                    .trim()}
+                </p>
+              )}
             </Dropdown>
           </Container>
         </div>
@@ -90,30 +106,42 @@ export default function UserPage(dif) {
           <h2>Sentences:</h2>
           <Container>
             <Dropdown title="easy" id="basic-dropdown4">
-              {JSON.stringify(sentences_easy)
-                .replace(/"/g, "")
-                .replace(/[\[\]']+/g, "")
-                .trim()}
-              {sentences_easy.length === 0 && (
+              {sentences_easy.length === 0 ? (
                 <p>No sentences found for easy level</p>
+              ) : (
+                <p>
+                  easy:
+                  {JSON.stringify(sentences_easy)
+                    .replace(/"/g, "")
+                    .replace(/[\[\]']+/g, "")
+                    .trim()}
+                </p>
               )}
             </Dropdown>
             <Dropdown title="medium" id="basic-dropdown5">
-              {JSON.stringify(sentences_medium)
-                .replace(/"/g, "")
-                .replace(/[\[\]']+/g, "")
-                .trim()}
-              {sentences_medium.length === 0 && (
+              {sentences_medium.length === 0 ? (
                 <p>No sentences found for medium level</p>
+              ) : (
+                <p>
+                  medium:
+                  {JSON.stringify(sentences_medium)
+                    .replace(/"/g, "")
+                    .replace(/[\[\]']+/g, "")
+                    .trim()}
+                </p>
               )}
             </Dropdown>
             <Dropdown title="hard" id="basic-dropdown6">
-              {JSON.stringify(sentences_hard)
-                .replace(/"/g, "")
-                .replace(/[\[\]']+/g, "")
-                .trim()}
-              {sentences_hard.length === 0 && (
+              {sentences_hard.length === 0 ? (
                 <p>No sentences found for hard level</p>
+              ) : (
+                <p>
+                  hard:
+                  {JSON.stringify(sentences_hard)
+                    .replace(/"/g, "")
+                    .replace(/[\[\]']+/g, "")
+                    .trim()}
+                </p>
               )}
             </Dropdown>
           </Container>
