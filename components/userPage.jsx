@@ -38,8 +38,21 @@ export default function UserPage(dif) {
   }, [dif]);
 
   return (
-    <div className="user-page">
-      <h1>Profil</h1>
+    <div
+      className="user-page"
+      style={{
+        margin: 0,
+        width: "100%",
+        height: "88%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#57CC04",
+        flexDirection: "column",
+        position: "absolute",
+      }}
+    >
+      <h1>Profile</h1>
       <h2>{user.name}</h2>
       <h2>Points: {points}</h2>
 
@@ -48,9 +61,10 @@ export default function UserPage(dif) {
           <h2>Words:</h2>
           <Container>
             <Dropdown title="easy" id="basic-dropdown1">
-              {words_easy.map((word) => (
-                <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
-              ))}
+              {JSON.stringify(words_easy)
+                .replace(/"/g, "")
+                .replace(/[\[\]']+/g, "")
+                .trim()}
               {words_easy.length === 0 && <p>No words found for easy level</p>}
             </Dropdown>
             <Dropdown title="medium" id="basic-dropdown2">

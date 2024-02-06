@@ -26,7 +26,7 @@ function CustomNavbar({ onNavbarData }) {
           style={{ backgroundColor: "#89e219" }}
         >
           <Container>
-            <Image src="/duolingo.jpg" alt="logo" width={50} height={50} />
+            <Image src="/duolingo.png" alt="logo" width={50} height={50} />
             {user ? (
               <Navbar.Brand href={"../user/" + user._id}>Duolingo</Navbar.Brand>
             ) : (
@@ -57,12 +57,6 @@ function CustomNavbar({ onNavbarData }) {
                         onClick={() => sendDataToParent("hard")}
                       >
                         hard
-                      </NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item
-                        onClick={() => sendDataToParent("random")}
-                      >
-                        Random
                       </NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Sentences" id="basic-nav-dropdown">

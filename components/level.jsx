@@ -102,7 +102,7 @@ export default function Level({ dif }) {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "red",
+        backgroundColor: "#57CC04",
         flexDirection: "column",
         position: "absolute",
       }}
