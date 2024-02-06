@@ -9,9 +9,9 @@ function CustomNavbar({ onNavbarData }) {
   const { user, setUser: setContextUser } = useUser();
   const router = useRouter();
   const logout = () => {
+    router.push("/");
     setContextUser(null);
     sessionStorage.removeItem("user");
-    router.push("/");
   };
 
   const sendDataToParent = (data) => {

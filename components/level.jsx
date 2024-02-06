@@ -1,6 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
+import { get } from "mobx";
 
 export default function Level({ dif }) {
   const { user, setUser: setContextUser } = useUser();
@@ -57,26 +58,41 @@ export default function Level({ dif }) {
   }, [dif]);
 
   const getRandomInt = (min, max, words) => {
-    let num = Math.floor(Math.random() * (max - min) + min);
-    let end = false;
-    while (
-      user &&
-      words.length > 0 &&
-      user.words[dif].includes(words[num].name)
-    ) {
-      if (user && words && user.words[dif].length == words.length) {
-        end = true;
-        break;
+    try {
+      let num = Math.floor(Math.random() * (max - min) + min);
+      console.log("Random " + num);
+      let invalid = true;
+      if (user.words[dif].length === words.length) {
+        return -1;
       }
-      num = Math.floor(Math.random() * (max - min) + min);
+      let count = 0;
+      while (invalid && count < max) {
+        invalid = false;
+        for (let i = 0; i < user.words[dif].length; i++) {
+          if (user.sentences[dif][i] === words[num].name) {
+            invalid = true;
+            break;
+          }
+        }
+        if (invalid) {
+          num = Math.floor(Math.random() * (max - min) + min);
+          console.log("Invalid " + num);
+        }
+        count++;
+      }
+      if (count >= max) {
+        console.log("Exceeded maximum attempts");
+        return -1;
+      }
+      return num;
+    } catch (err) {
+      console.log(err);
     }
-    if (end) {
-      return -1;
-    }
-    return num;
   };
   const checkWord = () => {
-    if (answer === words[randomWordIndex].translation) {
+    if (getRandomInt === -1) {
+      return;
+    } else if (answer === words[randomWordIndex].translation) {
       updateWords();
       updatePoints();
       setRadomWordIndex(getRandomInt(0, words.length, words));
