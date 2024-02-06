@@ -79,33 +79,38 @@ export default function sentences({ dif }) {
   }, [dif]);
 
   const getRandomInt = (min, max, sentences) => {
-    console.log("getRandomInt enter");
-    let num = Math.floor(Math.random() * (max - min) + min);
-    let end = false;
-    while (
-      user &&
-      sentences.length > 0 &&
-      user.sentences[dif].includes(sentences[num].sentence)
-    ) {
-      console.log(
-        "while" +
-          num +
-          " " +
-          sentences[num].sentence +
-          " " +
-          user.sentences[dif]
-      );
-      if (user && sentences && user.sentences[dif].length == sentences.length) {
-        end = true;
-        break;
-      } else {
-        num = Math.floor(Math.random() * (max - min) + min);
+    try {
+      console.log("getRandomInt enter");
+      let num = Math.floor(Math.random() * (max - min) + min);
+      let end = false;
+      while (
+        user &&
+        sentences.length > 0 &&
+        user.sentences[dif].includes(sentences[num].sentence)
+      ) {
+        console.log(
+          "getRandomInt while " +
+            user.sentences[dif].includes(sentences[num].sentence)
+        );
+        if (
+          user &&
+          sentences &&
+          user.sentences[dif].length == sentences.length
+        ) {
+          end = true;
+          break;
+        } else {
+          num = Math.floor(Math.random() * (max - min) + min);
+        }
       }
+      console.log("getRandomInt exit");
+      if (end) {
+        return -1;
+      }
+      return num;
+    } catch (err) {
+      console.log(err);
     }
-    if (end) {
-      return -1;
-    }
-    return num;
   };
   const checkWord = (clicked) => {
     if (answer === clicked) {
