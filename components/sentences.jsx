@@ -1,21 +1,22 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
 
-export default function sentences({ dif }) {
+export default function Sentences({ dif }) {
   const { user, setUser: setContextUser } = useUser();
   const [sentences, setSentences] = useState([]);
-  const [radomSentenceIndex, setRadomSentenceIndex] = useState(0);
+  const [randomSentenceIndex, setRandomSentenceIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [activeSentence, setActiveSentence] = useState("");
+  const [words, setWords] = useState([]);
   const [wrong, setWrong] = useState("");
 
   async function updateSentence() {
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3001/api/users/addSentence/" + user._id,
         {
-          sentence: sentences[randomWordIndex].sentence,
+          sentence: sentences[randomSentenceIndex].sentence,
           difficulty: dif,
         }
       );
@@ -23,20 +24,19 @@ export default function sentences({ dif }) {
       console.log(err);
     }
   }
+
   async function updatePoints() {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/users/addPoints",
-        {
-          userId: user._id,
-          points: sentences[randomWordIndex].points,
-        }
-      );
+      await axios.post("http://localhost:3001/api/users/addPoints", {
+        userId: user._id,
+        points: sentences[randomSentenceIndex].points,
+      });
       console.log("updatePoints");
     } catch (err) {
       console.log(err);
     }
   }
+
   async function getSentence() {
     try {
       if (user._id) {
@@ -45,32 +45,25 @@ export default function sentences({ dif }) {
         );
         setSentences(response.data);
         const rnd = getRandomInt(0, response.data.length, response.data);
-        setRadomSentenceIndex(rnd);
-        if (rnd != -1) createAnswer(rnd, response.data);
+        console.log(JSON.stringify(response.data));
+        setRandomSentenceIndex(rnd);
+        if (rnd !== -1) createAnswer(rnd, response.data);
       }
     } catch (err) {
       console.log(err);
     }
   }
-  function createAnswer(rnd, data) {
-    let ans =
-      data[rnd].sentence.split(" ")[
-        getRandomInt(0, data[rnd].sentence.split(" ").length, data)
-      ];
-    setAnswer(ans);
-    let temp = "";
-    data[rnd].sentence.split(" ").map((word) => {
-      if (word === ans) {
-        temp += " " + "__";
-      } else {
-        temp += " " + word;
-      }
-    });
 
+  function createAnswer(rnd, data) {
+    const randomWordIndex = getRandomInt(0, data.length, data);
+    const ans = data[rnd].sentence.split(" ")[randomWordIndex];
+    const words = data[rnd].words;
+    words.push(ans);
+    setWords(words);
+    setAnswer(ans);
+
+    const temp = data[rnd].sentence.replace(ans, "__");
     setActiveSentence(temp);
-    let tempWords = response.data[rmd].words;
-    tempWords.push(ans);
-    setWords(tempWords);
   }
 
   useEffect(() => {
@@ -79,54 +72,51 @@ export default function sentences({ dif }) {
   }, [dif]);
 
   const getRandomInt = (min, max, sentences) => {
-    try {
-      console.log("getRandomInt enter");
-      let num = Math.floor(Math.random() * (max - min) + min);
-      let end = false;
-      while (
-        user &&
-        sentences.length > 0 &&
-        user.sentences[dif].includes(sentences[num].sentence)
-      ) {
-        console.log(
-          "getRandomInt while " +
-            user.sentences[dif].includes(sentences[num].sentence)
-        );
-        if (
-          user &&
-          sentences &&
-          user.sentences[dif].length == sentences.length
-        ) {
-          end = true;
-          break;
-        } else {
-          num = Math.floor(Math.random() * (max - min) + min);
-        }
+    console.log("getRandomInt " + JSON.stringify(sentences));
+    let num = Math.floor(Math.random() * (max - min) + min);
+    console.log("num " + num);
+    let end = false;
+    while (
+      user &&
+      sentences.length > 0 &&
+      user.sentences[dif].includes(sentences[num].sentence)
+    ) {
+      if (user && sentences && user.sentences[dif].length == sentences.length) {
+        end = true;
+        break;
       }
-      console.log("getRandomInt exit");
-      if (end) {
-        return -1;
-      }
-      return num;
-    } catch (err) {
-      console.log(err);
+      num = Math.floor(Math.random() * (max - min) + min);
     }
+    if (end) {
+      return -1;
+    }
+    return num;
   };
+
   const checkWord = (clicked) => {
     if (answer === clicked) {
+      console.log("Correct");
       updateSentence();
       updatePoints();
       setContextUser({
         ...user,
-        points: user.points + sentences[randomWordIndex].points,
+        points: user.points + sentences[randomSentenceIndex].points,
         sentences: {
-          ...user.words,
-          [dif]: [...user.words[dif], sentences[randomWordIndex].name],
+          ...user.sentences,
+          [dif]: [
+            ...user.sentences[dif],
+            sentences[randomSentenceIndex].sentence,
+          ],
         },
       });
       const rnd = getRandomInt(0, sentences.length, sentences);
-      setRadomSentenceIndex(rnd);
-      if (rnd != -1) createAnswer(rnd, sentences);
+      setRandomSentenceIndex(rnd);
+      if (rnd !== -1) {
+        createAnswer(rnd, sentences);
+      } else {
+        return;
+      }
+      console.log("user: " + JSON.stringify(user));
       setWrong("");
     } else {
       setWrong("X");
@@ -145,7 +135,7 @@ export default function sentences({ dif }) {
         position: "absolute",
       }}
     >
-      <h2>points: {user.points}</h2>
+      <h2>Points: {user.points}</h2>
       <div
         style={{
           margin: 0,
@@ -159,25 +149,17 @@ export default function sentences({ dif }) {
         }}
       >
         <h1>
-          {radomSentenceIndex == -1
-            ? "you finished this level"
-            : sentences &&
-              radomSentenceIndex != -1 &&
-              sentences[radomSentenceIndex]
-            ? activeSentence
-            : ""}
+          {randomSentenceIndex === -1
+            ? "You finished this level"
+            : activeSentence}
         </h1>
         <div style={{ display: "flex" }}>
-          {console.log(JSON.stringify(sentences))}
-          {radomSentenceIndex != -1
-            ? sentences.map((word, index) => {
-                return (
-                  <button key={index} id={word} onClick={() => checkWord(word)}>
-                    {word}
-                  </button>
-                );
-              })
-            : ""}
+          {randomSentenceIndex !== -1 &&
+            words.map((word, index) => (
+              <button key={index} onClick={() => checkWord(word)}>
+                {word}
+              </button>
+            ))}
         </div>
       </div>
     </div>
