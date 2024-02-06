@@ -7,6 +7,7 @@ export default function Level({ dif }) {
   const [words, setWords] = useState([]);
   const [randomWordIndex, setRadomWordIndex] = useState(0);
   const [answer, setAnswer] = useState("");
+  const [wrong, setWrong] = useState("");
 
   async function updateWords() {
     try {
@@ -88,8 +89,9 @@ export default function Level({ dif }) {
         },
       });
       setAnswer("");
+      setWrong("");
     } else {
-      console.log("wrong");
+      setWrong("X");
     }
   };
 
@@ -100,40 +102,57 @@ export default function Level({ dif }) {
         width: "100%",
         height: "88%",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "#57CC04",
         flexDirection: "column",
         position: "absolute",
       }}
     >
-      <h1>
-        {randomWordIndex == -1 ? "you finished this level" : ""}
-        {words && randomWordIndex != -1 && words[randomWordIndex]
-          ? words[randomWordIndex].name
-          : ""}
-      </h1>
-      <input
-        id="answer"
-        style={{ margin: 10 }}
-        type="text"
-        value={answer}
-        onChange={(e) => {
-          e.preventDefault();
-          setAnswer(e.target.value);
+      <h2>points: {user.points}</h2>
+      <div
+        style={{
+          margin: 0,
+          width: "100%",
+          height: "88%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          position: "absolute",
         }}
-      />
-      <div>
-        <button style={{ margin: 10 }} onClick={checkWord}>
-          check
-        </button>
-        <button
-          onClick={() =>
-            setRadomWordIndex(getRandomInt(0, words.length, words))
-          }
-        >
-          next
-        </button>
+      >
+        <h1>
+          {randomWordIndex == -1 ? "you finished this level" : ""}
+          {words && randomWordIndex != -1 && words[randomWordIndex]
+            ? words[randomWordIndex].name
+            : ""}
+        </h1>
+        <div style={{ display: "flex" }}>
+          <input
+            id="answer"
+            style={{ margin: 10 }}
+            type="text"
+            value={answer}
+            onChange={(e) => {
+              e.preventDefault();
+              setAnswer(e.target.value);
+            }}
+          />
+          <h3 style={{ color: "red", fontSize: 40 }}>{wrong}</h3>
+        </div>
+        <div>
+          <button style={{ margin: 10 }} onClick={checkWord}>
+            check
+          </button>
+          <button
+            onClick={() => {
+              setRadomWordIndex(getRandomInt(0, words.length, words));
+              setWrong("");
+              setAnswer("");
+            }}
+          >
+            next
+          </button>
+        </div>
       </div>
     </div>
   );
