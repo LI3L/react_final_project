@@ -44,7 +44,12 @@ export default function GetDiff({ dif }) {
           <img
             src="/mainBg.png"
             alt="meme"
-            style={{ width: "100%", height: "88vh", objectFit: "cover" ,display: "block"}}
+            style={{
+              width: "100%",
+              height: "88vh",
+              objectFit: "cover",
+              display: "block",
+            }}
           />
         </div>
       )}
