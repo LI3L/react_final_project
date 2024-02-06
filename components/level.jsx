@@ -107,7 +107,7 @@ export default function Level({ dif }) {
         position: "absolute",
       }}
     >
-      <h2>points: {user.points}</h2>
+      <h2>points: {user && user.points}</h2>
       <div
         style={{
           margin: 0,
