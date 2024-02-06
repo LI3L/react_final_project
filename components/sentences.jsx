@@ -105,7 +105,9 @@ export default function Sentences({ dif }) {
   };
 
   const checkWord = (clicked) => {
-    if (answer === clicked) {
+    if (randomSentenceIndex === -1) {
+      return;
+    } else if (answer === clicked) {
       console.log("Correct");
       updateSentence();
       updatePoints();
