@@ -68,17 +68,19 @@ export default function UserPage(dif) {
               {words_easy.length === 0 && <p>No words found for easy level</p>}
             </Dropdown>
             <Dropdown title="medium" id="basic-dropdown2">
-              {words_medium.map((word) => (
-                <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
-              ))}
+              {JSON.stringify(words_medium)
+                .replace(/"/g, "")
+                .replace(/[\[\]']+/g, "")
+                .trim()}
               {words_medium.length === 0 && (
                 <p>No words found for medium level</p>
               )}
             </Dropdown>
             <Dropdown title="hard" id="basic-dropdown3">
-              {words_hard.map((word) => (
-                <Dropdown.Item key={word.id}>{word.name}</Dropdown.Item>
-              ))}
+              {JSON.stringify(words_hard)
+                .replace(/"/g, "")
+                .replace(/[\[\]']+/g, "")
+                .trim()}
               {words_hard.length === 0 && <p>No words found for hard level</p>}
             </Dropdown>
           </Container>
