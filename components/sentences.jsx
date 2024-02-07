@@ -24,6 +24,26 @@ export default function Sentences({ dif }) {
       console.log(err);
     }
   }
+  async function updateSuccsess() {
+    try {
+      await axios.post(
+        "http://localhost:3001/api/words/addSuccess/" +
+          sentences[randomSentenceIndex]._id
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateFailure() {
+    try {
+      await axios.post(
+        "http://localhost:3001/api/words/addFailure/" +
+          sentences[randomWordIndex]._id
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   async function updatePoints() {
     try {
@@ -31,7 +51,18 @@ export default function Sentences({ dif }) {
         userId: user._id,
         points: sentences[randomSentenceIndex].points,
       });
-      console.log("updatePoints");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateLevel() {
+    try {
+      await axios.post("http://localhost:3001/api/users/updateLevel", {
+        userId: user._id,
+        level: dif,
+        data: [],
+        type: "sentences",
+      });
     } catch (err) {
       console.log(err);
     }
@@ -45,7 +76,6 @@ export default function Sentences({ dif }) {
         );
         setSentences(response.data);
         const rnd = getRandomInt(0, response.data.length, response.data);
-        console.log(JSON.stringify(response.data));
         setRandomSentenceIndex(rnd);
         if (rnd !== -1) createAnswer(rnd, response.data);
       }
@@ -56,7 +86,7 @@ export default function Sentences({ dif }) {
 
   function createAnswer(rnd, data) {
     const randomWordIndex = getRandomInt(0, data.length, data);
-    const ans = data[rnd].sentence.split(" ")[randomWordIndex];
+    const ans = data[rnd].sentence.trim().split(" ")[randomWordIndex];
     const words = data[rnd].words;
     words.push(ans);
     setWords(words);
@@ -74,7 +104,6 @@ export default function Sentences({ dif }) {
   const getRandomInt = (min, max, sentences) => {
     try {
       let num = Math.floor(Math.random() * (max - min) + min);
-      console.log("Random " + num);
       let invalid = true;
       if (user.sentences[dif].length === sentences.length) {
         return -1;
@@ -90,12 +119,10 @@ export default function Sentences({ dif }) {
         }
         if (invalid) {
           num = Math.floor(Math.random() * (max - min) + min);
-          console.log("Invalid " + num);
         }
         count++;
       }
       if (count >= max) {
-        console.log("Exceeded maximum attempts");
         return -1;
       }
       return num;
@@ -103,13 +130,33 @@ export default function Sentences({ dif }) {
       console.log(err);
     }
   };
+  const resetLevel = () => {
+    updateLevel();
+    setContextUser({
+      ...user,
+      sentences: {
+        ...user.sentences,
+        [dif]: [],
+      },
+    });
 
-  const checkWord = (clicked) => {
+    const rnd = getRandomInt(0, sentences.length, sentences);
+    setRandomSentenceIndex(rnd);
+    document.getElementById(0).style.background = "white";
+    document.getElementById(1).style.background = "white";
+    document.getElementById(2).style.background = "white";
+    document.getElementById(3).style.background = "white";
+    if (rnd !== -1) {
+      createAnswer(rnd, sentences);
+    } else return;
+  };
+
+  const checkWord = (clicked, id) => {
     if (randomSentenceIndex === -1) {
       return;
     } else if (answer === clicked) {
-      console.log("Correct");
       updateSentence();
+      updateSuccsess();
       updatePoints();
       setContextUser({
         ...user,
@@ -124,15 +171,16 @@ export default function Sentences({ dif }) {
       });
       const rnd = getRandomInt(0, sentences.length, sentences);
       setRandomSentenceIndex(rnd);
+      document.getElementById(0).style.background = "white";
+      document.getElementById(1).style.background = "white";
+      document.getElementById(2).style.background = "white";
+      document.getElementById(3).style.background = "white";
       if (rnd !== -1) {
         createAnswer(rnd, sentences);
-      } else {
-        return;
-      }
-      console.log("user: " + JSON.stringify(user));
-      setWrong("");
+      } else return;
     } else {
-      setWrong("X");
+      updateFailure();
+      document.getElementById(id).style.background = "red";
     }
   };
 
@@ -148,7 +196,7 @@ export default function Sentences({ dif }) {
         position: "absolute",
       }}
     >
-      <h2>Points: {user.points}</h2>
+      <h2>Points: {user && user.points}</h2>
       <div
         style={{
           margin: 0,
@@ -166,10 +214,15 @@ export default function Sentences({ dif }) {
             ? "You finished this level"
             : activeSentence}
         </h1>
+        {/* {randomSentenceIndex === -1 ? (
+          <button onClick={resetLevel}>Reset Level </button>
+        ) : (
+          ""
+        )} */}
         <div style={{ display: "flex" }}>
           {randomSentenceIndex !== -1 &&
             words.map((word, index) => (
-              <button key={index} onClick={() => checkWord(word)}>
+              <button id={index} onClick={() => checkWord(word, index)}>
                 {word}
               </button>
             ))}

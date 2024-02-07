@@ -1,9 +1,10 @@
 import { useUser } from "./UserContext";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Dropdown } from "react-bootstrap";
+import { Button, Container, Dropdown } from "react-bootstrap";
 import "./Layout/UserPage.module.css";
-import LeaderBord from "./LeaderBord";
+import LeaderBord from "./LeaderBoard";
+import CreatreWord from "./createWord";
 
 export default function UserPage(dif) {
   const { user, setUser: setContextUser } = useUser();
@@ -38,6 +39,8 @@ export default function UserPage(dif) {
     fetchData();
   }, [dif]);
 
+  console.log("user", user);
+
   return (
     <div
       className="user-page"
@@ -52,7 +55,12 @@ export default function UserPage(dif) {
         flexDirection: "reverse row",
       }}
     >
-      <LeaderBord />
+      <div style={{ display: "flex" }}>
+        <LeaderBord />
+        {user && !user.admin ? <CreatreWord /> : "hello"}
+        {/* {user&& user.admin ?  <button onClick={}>add word</button>:""} */}
+        {/* {user&& user.admin ?  <button onClick={}>add sentence</button>:""} */}
+      </div>
       <div
         style={{
           margin: 0,
@@ -66,7 +74,7 @@ export default function UserPage(dif) {
         }}
       >
         <h1>Profile</h1>
-        <h2>{user.name}</h2>
+        <h2>{user && user.name}</h2>
         <h2>Points: {points}</h2>
 
         <div className="dropdowns-container">

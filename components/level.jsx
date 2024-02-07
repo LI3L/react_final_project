@@ -9,6 +9,33 @@ export default function Level({ dif }) {
   const [randomWordIndex, setRadomWordIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [wrong, setWrong] = useState("");
+  async function updateLevel() {
+    try {
+      await axios.post("http://localhost:3001/api/users/updateLevel", {
+        userId: user._id,
+        level: dif,
+        data: [],
+        type: "words",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    const rnd = getRandomInt(0, words.length, words);
+    setRandomWordsIndex(rnd);
+    if (rnd !== -1) createAnswer(rnd, words);
+  }
+
+  const resetLevel = () => {
+    updateLevel();
+    setContextUser({
+      ...user,
+      words: {
+        ...user.words,
+        [dif]: [],
+      },
+    });
+  };
 
   async function updateWords() {
     try {
@@ -33,6 +60,26 @@ export default function Level({ dif }) {
         }
       );
       console.log("updatePoints");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateSuccsess() {
+    try {
+      await axios.post(
+        "http://localhost:3001/api/words/addSuccess/" +
+          words[randomWordIndex]._id
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function updateFailure() {
+    try {
+      await axios.post(
+        "http://localhost:3001/api/words/addFailure/" +
+          words[randomWordIndex]._id
+      );
     } catch (err) {
       console.log(err);
     }
@@ -95,6 +142,7 @@ export default function Level({ dif }) {
     } else if (answer === words[randomWordIndex].translation) {
       updateWords();
       updatePoints();
+      updateSuccsess();
       setRadomWordIndex(getRandomInt(0, words.length, words));
       setContextUser({
         ...user,
@@ -108,6 +156,7 @@ export default function Level({ dif }) {
       setWrong("");
     } else {
       setWrong("X");
+      updateFailure();
     }
   };
 
@@ -142,6 +191,11 @@ export default function Level({ dif }) {
             ? words[randomWordIndex].name
             : ""}
         </h1>
+        {randomSentenceIndex === -1 ? (
+          <button onClick={resetLevel}>Reset Level </button>
+        ) : (
+          ""
+        )}
         <div style={{ display: "flex" }}>
           <input
             id="answer"

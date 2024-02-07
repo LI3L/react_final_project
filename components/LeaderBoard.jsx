@@ -21,7 +21,7 @@ export default function LeaderBord() {
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: "0 30", overflow: "auto" }}>
       <h1>Leaderboard</h1>
       <table style={{ borderCollapse: "collapse", width: "100%" }}>
         <thead>
@@ -50,13 +50,13 @@ export default function LeaderBord() {
 
 const styles = {
   tableHeader: {
-    backgroundColor: "#57CC04",
+    backgroundColor: "#89e219",
     padding: "12px",
-    border: "1px solid #000000",
+    border: "5px solid #000000",
   },
   tableData: {
     padding: "12px",
-    border: "1px solid #000000",
+    border: "5px solid #000000",
   },
   evenRow: {
     backgroundColor: "#57CC04",
