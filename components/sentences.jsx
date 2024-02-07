@@ -72,29 +72,42 @@ export default function Sentences({ dif }) {
   }, [dif]);
 
   const getRandomInt = (min, max, sentences) => {
-    console.log("getRandomInt " + JSON.stringify(sentences));
-    let num = Math.floor(Math.random() * (max - min) + min);
-    console.log("num " + num);
-    let end = false;
-    while (
-      user &&
-      sentences.length > 0 &&
-      user.sentences[dif].includes(sentences[num].sentence)
-    ) {
-      if (user && sentences && user.sentences[dif].length == sentences.length) {
-        end = true;
-        break;
+    try {
+      let num = Math.floor(Math.random() * (max - min) + min);
+      console.log("Random " + num);
+      let invalid = true;
+      if (user.sentences[dif].length === sentences.length) {
+        return -1;
       }
-      num = Math.floor(Math.random() * (max - min) + min);
+      let count = 0;
+      while (invalid && count < max) {
+        invalid = false;
+        for (let i = 0; i < user.sentences[dif].length; i++) {
+          if (user.sentences[dif][i] === sentences[num].sentence) {
+            invalid = true;
+            break;
+          }
+        }
+        if (invalid) {
+          num = Math.floor(Math.random() * (max - min) + min);
+          console.log("Invalid " + num);
+        }
+        count++;
+      }
+      if (count >= max) {
+        console.log("Exceeded maximum attempts");
+        return -1;
+      }
+      return num;
+    } catch (err) {
+      console.log(err);
     }
-    if (end) {
-      return -1;
-    }
-    return num;
   };
 
   const checkWord = (clicked) => {
-    if (answer === clicked) {
+    if (randomSentenceIndex === -1) {
+      return;
+    } else if (answer === clicked) {
       console.log("Correct");
       updateSentence();
       updatePoints();
