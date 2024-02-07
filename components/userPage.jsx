@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button, Container, Dropdown } from "react-bootstrap";
 import "./Layout/UserPage.module.css";
-import LeaderBord from "./LeaderBoard";
-import CreatreWord from "./createWord";
+import LeaderBoard from "./LeaderBoard";
+import CreateWord from "./CreateWord"; // corrected import name
 
 export default function UserPage(dif) {
+  const [admin, setAdmin] = useState(false);
+  const [adminData, setAdminData] = useState(false);
   const { user, setUser: setContextUser } = useUser();
   const [words_easy, setWords_easy] = useState([]);
   const [words_medium, setWords_medium] = useState([]);
@@ -18,7 +20,8 @@ export default function UserPage(dif) {
 
   async function getData() {
     try {
-      if (user._id) {
+      if (user && user._id) {
+        // Check if user exists before accessing its properties
         const response = await axios.get(
           "http://localhost:3001/api/users/" + user._id
         );
@@ -29,6 +32,9 @@ export default function UserPage(dif) {
         setSentences_medium(response.data.sentences.medium);
         setSentences_hard(response.data.sentences.hard);
         setPoints(response.data.points);
+        if (user.admin === true) setAdmin(true); // Correct comparison operator
+        console.log(JSON.stringify(user) + "asfakjfakjnfakjn");
+        console.log(user.admin + "asfakjfakjnfakjn");
       }
     } catch (err) {
       console.log(err);
@@ -38,8 +44,6 @@ export default function UserPage(dif) {
     const fetchData = async () => await getData();
     fetchData();
   }, [dif]);
-
-  console.log("user", user);
 
   return (
     <div
@@ -52,14 +56,23 @@ export default function UserPage(dif) {
         backgroundColor: "#57CC04",
         flexDirection: "column",
         position: "absolute",
-        flexDirection: "reverse row",
       }}
     >
       <div style={{ display: "flex" }}>
-        <LeaderBord />
-        {user && !user.admin ? <CreatreWord /> : "hello"}
-        {/* {user&& user.admin ?  <button onClick={}>add word</button>:""} */}
-        {/* {user&& user.admin ?  <button onClick={}>add sentence</button>:""} */}
+        <LeaderBoard />
+        {user && admin && !adminData ? (
+          <button // Changed to Bootstrap Button
+            onClick={(e) => {
+              e.preventDefault();
+              setAdminData(!adminData);
+            }}
+          >
+            Add Word
+          </button>
+        ) : (
+          ""
+        )}
+        {user && adminData ? <CreateWord /> : "hello"}
       </div>
       <div
         style={{
@@ -70,7 +83,7 @@ export default function UserPage(dif) {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          position: "absolute",
+          // position: "absolute",
         }}
       >
         <h1>Profile</h1>

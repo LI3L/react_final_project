@@ -1,88 +1,122 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 
-const axiosInstance = axios.create({
-  validateStatus: (status) => status < 500,
-});
+export default function CreateWord() {
+  const [name, setName] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [translation, setTranslation] = useState("");
+  const [points, setPoints] = useState("");
+  const router = useRouter();
 
-export default function CreatreWord() {
-  const [formData, setFormData] = useState({
-    name: "",
-    difficulty: "",
-    translation: "",
-    points: 0,
-  });
-  const [worngValue, setWorngValue] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await axiosInstance.post(
-        "http://localhost:3001/api/words",
-        formData
-      );
-      console.log("Data sent successfully");
-    } catch (error) {
-      console.error("Error sending data:", error);
+      axios.post("http://localhost:3001/api/words/", {
+        name: name,
+        difficulty: difficulty,
+        translation: translation,
+        points: points,
+      });
+    } catch (err) {
+      console.log(err);
     }
-  };
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setName("");
+    setDifficulty("");
+    setTranslation("");
+    setPoints("");
   };
 
   return (
-    <div style={{ flexDirection: "column", border: "solid 1px black" }}>
-      <div>
-        <form
-          style={{ display: "flex", flexDirection: "column" }}
-          onSubmit={handleSubmit}
-        >
-          <label>
-            word:
+    <div style={{ flexDirection: "column" }}>
+      <div style={styles.registerContainer}>
+        <div style={styles.registerBox}>
+          <form onSubmit={handleSubmit} style={styles.getDataFrom}>
             <input
               type="text"
-              name="word"
-              value={formData.name}
-              onChange={handleChange}
+              style={styles.mailPawwordInput}
+              placeholder="name"
+              value={name}
+              onChange={(e) => {
+                e.preventDefault();
+                setName(e.target.value);
+              }}
+              required
             />
-          </label>
-          <label>
-            difficulty:
             <input
               type="text"
-              name="difficulty"
-              value={formData.difficulty}
-              onChange={handleChange}
+              style={styles.mailPawwordInput}
+              placeholder="translation"
+              value={translation}
+              onChange={(e) => {
+                e.preventDefault();
+                setTranslation(e.target.value);
+              }}
+              required
             />
-          </label>
-          <label>
-            translation:
             <input
               type="text"
-              name="translation"
-              value={formData.translation}
-              onChange={handleChange}
+              style={styles.mailPawwordInput}
+              placeholder="difficulty"
+              value={difficulty}
+              onChange={(e) => {
+                e.preventDefault();
+                setDifficulty(e.target.value);
+              }}
+              required
             />
-          </label>
-          <label>
-            points:
             <input
-              type="text"
-              name="points"
-              value={formData.points}
-              onChange={handleChange}
+              type="number"
+              style={styles.mailPawwordInput}
+              placeholder="points"
+              value={points}
+              onChange={(e) => {
+                e.preventDefault();
+                const inputValue = e.target.value;
+                if (/^\d+$/.test(inputValue) || inputValue === "")
+                  setPoints(inputValue);
+              }}
+              required
             />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
+
+            <button type="submit" style={styles.registerButton}>
+              create
+            </button>
+          </form>
+        </div>
       </div>
-      <label style={{ color: "red" }}>{worngValue}</label>
     </div>
   );
 }
+
+const styles = {
+  registerBox: {
+    padding: "50px" /* Increase the padding for a larger box */,
+  },
+
+  getDataFrom: {
+    display: "flex",
+    flexdirection: "column",
+  },
+
+  getLable: {
+    marginbottom: "8px" /* Adjust margin for labels */,
+    fontsize: "18px" /* Adjust font size for labels */,
+  },
+
+  mailPawwordInput: {
+    padding: "4px" /* Adjust padding for input fields */,
+    marginbottom: "12px" /* Adjust margin for input fields */,
+    fontsize: "16px" /* Adjust font size for input fields */,
+  },
+
+  registerButton: {
+    padding: "9px" /* Adjust padding for the button */,
+    fontsize: "18px" /* Adjust font size for the button */,
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderradius: "6px",
+    cursor: "pointer",
+  },
+};
