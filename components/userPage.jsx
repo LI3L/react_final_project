@@ -4,11 +4,13 @@ import axios from "axios";
 import { Button, Container, Dropdown } from "react-bootstrap";
 import "./Layout/UserPage.module.css";
 import LeaderBoard from "./LeaderBoard";
-import CreateWord from "./CreateWord"; // corrected import name
+import CreateWord from "./createWord"; // corrected import name
+import CreateSentence from "./createSentence";
 
 export default function UserPage(dif) {
   const [admin, setAdmin] = useState(false);
-  const [adminData, setAdminData] = useState(false);
+  const [adminDataWord, setAdminDataWord] = useState(false);
+  const [adminDataSentence, setAdminDataSentence] = useState(false);
   const { user, setUser: setContextUser } = useUser();
   const [words_easy, setWords_easy] = useState([]);
   const [words_medium, setWords_medium] = useState([]);
@@ -58,13 +60,20 @@ export default function UserPage(dif) {
         position: "absolute",
       }}
     >
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", flexDirection: "column", width: "30%" }}>
         <LeaderBoard />
-        {user && admin && !adminData ? (
-          <button // Changed to Bootstrap Button
+
+        {user && admin && !adminDataWord ? (
+          <button
+            style={{
+              height: 60,
+              fontSize: 20,
+              backgroundColor: "#89e219",
+              margin: 5,
+            }} // Changed to Bootstrap Button
             onClick={(e) => {
               e.preventDefault();
-              setAdminData(!adminData);
+              setAdminDataWord(!adminDataWord);
             }}
           >
             Add Word
@@ -72,16 +81,73 @@ export default function UserPage(dif) {
         ) : (
           ""
         )}
-        {user && adminData ? <CreateWord /> : "hello"}
+        {user && admin && adminDataWord ? (
+          <button
+            style={{
+              height: 60,
+              fontSize: 20,
+              backgroundColor: "#89e219",
+              margin: 5,
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              setAdminDataWord(!adminDataWord);
+            }}
+          >
+            Close
+          </button>
+        ) : (
+          ""
+        )}
+
+        {user && admin && !adminDataSentence ? (
+          <button
+            style={{
+              height: 60,
+              fontSize: 20,
+              backgroundColor: "#89e219",
+              margin: 5,
+            }} // Changed to Bootstrap Button
+            onClick={(e) => {
+              e.preventDefault();
+              setAdminDataSentence(!adminDataSentence);
+            }}
+          >
+            Add Sentence
+          </button>
+        ) : (
+          ""
+        )}
+        {user && admin && adminDataSentence ? (
+          <button
+            style={{
+              height: 60,
+              fontSize: 20,
+              backgroundColor: "#89e219",
+              margin: 5,
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              setAdminDataSentence(!adminDataSentence);
+            }}
+          >
+            Close
+          </button>
+        ) : (
+          ""
+        )}
+        {user && adminDataWord ? <CreateWord /> : ""}
+        {user && adminDataSentence ? <CreateSentence /> : ""}
       </div>
       <div
         style={{
           margin: 0,
-          width: "100%",
-          height: "100%",
+          // width: "100%",
+          flex: 3,
+          height: "10%",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "end",
           flexDirection: "column",
           // position: "absolute",
         }}

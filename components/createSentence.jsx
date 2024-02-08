@@ -2,28 +2,28 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-export default function CreateWord() {
-  const [name, setName] = useState("");
+export default function CreateSentence() {
+  const [sentence, setSentence] = useState("");
   const [difficulty, setDifficulty] = useState("");
-  const [translation, setTranslation] = useState("");
+  const [words, setWords] = useState("");
   const [points, setPoints] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      axios.post("http://localhost:3001/api/words/", {
-        name: name,
+      axios.post("http://localhost:3001/api/sentences/", {
+        sentence: sentence,
         difficulty: difficulty,
-        translation: translation,
+        words: words.split(),
         points: points,
       });
     } catch (err) {
       console.log(err);
     }
-    setName("");
+    setSentence("");
     setDifficulty("");
-    setTranslation("");
+    setWords("");
     setPoints("");
   };
 
@@ -35,22 +35,22 @@ export default function CreateWord() {
             <input
               type="text"
               style={styles.mailPawwordInput}
-              placeholder="name"
-              value={name}
+              placeholder="sentence"
+              value={sentence}
               onChange={(e) => {
                 e.preventDefault();
-                setName(e.target.value);
+                setSentence(e.target.value);
               }}
               required
             />
             <input
               type="text"
               style={styles.mailPawwordInput}
-              placeholder="translation"
-              value={translation}
+              placeholder="words space bettwen words"
+              value={words}
               onChange={(e) => {
                 e.preventDefault();
-                setTranslation(e.target.value);
+                setWords(e.target.value);
               }}
               required
             />
