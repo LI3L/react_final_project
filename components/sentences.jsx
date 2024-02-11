@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
 
@@ -20,26 +20,31 @@ export default function Sentences({ dif }) {
           difficulty: dif,
         }
       );
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async function updateSuccsess() {
-    try {
+      await axios.post("http://localhost:3001/api/users/addPoints", {
+        userId: user._id,
+        points: sentences[randomSentenceIndex].points,
+      });
       await axios.post(
-        "http://localhost:3001/api/words/addSuccess/" +
-          sentences[randomSentenceIndex]._id
+        "http://localhost:3001/api/users/addSuccess/" + user._id
       );
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async function updateFailure() {
-    try {
-      await axios.post(
-        "http://localhost:3001/api/words/addFailure/" +
-          sentences[randomWordIndex]._id
+      console.log(
+        "s" +
+          sentences[randomSentenceIndex].sentence +
+          "||" +
+          sentences[randomSentenceIndex].points
       );
+      setContextUser({
+        ...user,
+        points: user.points + sentences[randomSentenceIndex].points,
+        sentences: {
+          ...user.sentences,
+          [dif]: [
+            ...user.sentences[dif],
+            sentences[randomSentenceIndex].sentence,
+          ],
+        },
+        success: user.success + 1,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -51,17 +56,37 @@ export default function Sentences({ dif }) {
         userId: user._id,
         points: sentences[randomSentenceIndex].points,
       });
+      setContextUser({
+        ...user,
+        points: user.points + sentences[randomSentenceIndex].points,
+      });
     } catch (err) {
       console.log(err);
     }
   }
-  async function updateLevel() {
+
+  async function updateFail() {
     try {
-      await axios.post("http://localhost:3001/api/users/updateLevel", {
-        userId: user._id,
-        level: dif,
-        data: [],
-        type: "sentences",
+      await axios.post(
+        "http://localhost:3001/api/users/addFailure/" + user._id
+      );
+      setContextUser({
+        ...user,
+        failure: user.failure + 1,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function updateSuccess() {
+    try {
+      await axios.post(
+        "http://localhost:3001/api/users/addSuccess/" + user._id
+      );
+      setContextUser({
+        ...user,
+        success: user.success + 1,
       });
     } catch (err) {
       console.log(err);
@@ -75,9 +100,17 @@ export default function Sentences({ dif }) {
           "http://localhost:3001/api/sentences/difficulty/" + dif
         );
         setSentences(response.data);
-        const rnd = getRandomInt(0, response.data.length, response.data);
-        setRandomSentenceIndex(rnd);
-        if (rnd !== -1) createAnswer(rnd, response.data);
+        if (response.data.length === user.sentences[dif].length) {
+          setRandomSentenceIndex(-1);
+          setActiveSentence("You finished this level");
+        } else {
+          let rnd = getRandomInt(0, response.data.length);
+          while (user.sentences[dif].includes(response.data[rnd].sentence)) {
+            rnd = getRandomInt(0, response.data.length);
+          }
+          setRandomSentenceIndex(rnd);
+          createAnswer(rnd, response.data);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -85,13 +118,13 @@ export default function Sentences({ dif }) {
   }
 
   function createAnswer(rnd, data) {
-    const randomWordIndex = getRandomInt(0, data.length, data);
-    const ans = data[rnd].sentence.trim().split(" ")[randomWordIndex];
+    const sen = data[rnd].sentence.split(" ");
+    const ans = sen[getRandomInt(0, sen.length)];
     const words = data[rnd].words;
     words.push(ans);
+    words.sort(() => Math.random() - 0.5);
     setWords(words);
     setAnswer(ans);
-
     const temp = data[rnd].sentence.replace(ans, "__");
     setActiveSentence(temp);
   }
@@ -99,90 +132,21 @@ export default function Sentences({ dif }) {
   useEffect(() => {
     const fetchData = async () => await getSentence();
     fetchData();
-  }, [dif]);
+  }, [dif, user]);
 
-  const getRandomInt = (min, max, sentences) => {
-    try {
-      let num = Math.floor(Math.random() * (max - min) + min);
-      let invalid = true;
-      if (user.sentences[dif].length === sentences.length) {
-        return -1;
-      }
-      let count = 0;
-      while (invalid && count < max) {
-        invalid = false;
-        for (let i = 0; i < user.sentences[dif].length; i++) {
-          if (user.sentences[dif][i] === sentences[num].sentence) {
-            invalid = true;
-            break;
-          }
-        }
-        if (invalid) {
-          num = Math.floor(Math.random() * (max - min) + min);
-        }
-        count++;
-      }
-      if (count >= max) {
-        return -1;
-      }
-      return num;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const resetLevel = () => {
-    updateLevel();
-    setContextUser({
-      ...user,
-      sentences: {
-        ...user.sentences,
-        [dif]: [],
-      },
-    });
-
-    const rnd = getRandomInt(0, sentences.length, sentences);
-    setRandomSentenceIndex(rnd);
-    document.getElementById(0).style.background = "white";
-    document.getElementById(1).style.background = "white";
-    document.getElementById(2).style.background = "white";
-    document.getElementById(3).style.background = "white";
-    if (rnd !== -1) {
-      createAnswer(rnd, sentences);
-    } else return;
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
   };
 
-  const checkWord = (clicked, id) => {
-    if (randomSentenceIndex === -1) {
-      return;
-    } else if (answer === clicked) {
-      updateSentence();
-      updateSuccsess();
-      updatePoints();
-      setContextUser({
-        ...user,
-        points: user.points + sentences[randomSentenceIndex].points,
-        sentences: {
-          ...user.sentences,
-          [dif]: [
-            ...user.sentences[dif],
-            sentences[randomSentenceIndex].sentence,
-          ],
-        },
-      });
-      const rnd = getRandomInt(0, sentences.length, sentences);
-      setRandomSentenceIndex(rnd);
-      document.getElementById(0).style.background = "white";
-      document.getElementById(1).style.background = "white";
-      document.getElementById(2).style.background = "white";
-      document.getElementById(3).style.background = "white";
-      if (rnd !== -1) {
-        createAnswer(rnd, sentences);
-      } else return;
+  async function checkWord(word) {
+    if (word === answer) {
+      setWrong("");
+      await updateSentence();
     } else {
-      updateFailure();
-      document.getElementById(id).style.background = "red";
+      setWrong("X");
+      await updateFail();
     }
-  };
+  }
 
   return (
     <div
@@ -196,7 +160,7 @@ export default function Sentences({ dif }) {
         position: "absolute",
       }}
     >
-      <h2>Points: {user && user.points}</h2>
+      <h2>Points: {user.points}</h2>
       <div
         style={{
           margin: 0,
@@ -212,20 +176,18 @@ export default function Sentences({ dif }) {
         <h1>
           {randomSentenceIndex === -1
             ? "You finished this level"
-            : activeSentence}
+            : activeSentence + " " + randomSentenceIndex}
         </h1>
-        {/* {randomSentenceIndex === -1 ? (
-          <button onClick={resetLevel}>Reset Level </button>
-        ) : (
-          ""
-        )} */}
         <div style={{ display: "flex" }}>
           {randomSentenceIndex !== -1 &&
             words.map((word, index) => (
-              <button id={index} onClick={() => checkWord(word, index)}>
+              <button key={index} onClick={() => checkWord(word)}>
                 {word}
               </button>
             ))}
+          {randomSentenceIndex !== -1 ? (
+            <h3 style={{ color: "red", fontSize: 40 }}>{wrong}</h3>
+          ) : null}
         </div>
       </div>
     </div>

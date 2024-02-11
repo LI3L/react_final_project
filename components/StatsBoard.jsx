@@ -4,7 +4,6 @@ import axios from "axios";
 export default function StatsBoard() {
   const [statsBoard, setStatsBoard] = useState([]);
 
-
   async function getStatsBoard() {
     try {
       const response = await axios.get(
@@ -15,7 +14,6 @@ export default function StatsBoard() {
       console.log(err);
     }
   }
-  
 
   useEffect(() => {
     getStatsBoard();
@@ -23,30 +21,32 @@ export default function StatsBoard() {
   }, []);
 
   return (
-    <div style={{ padding: "0 30", overflow: "auto" }}>
-      <h1>Stats Board</h1>
-      <table style={{ borderCollapse: "collapse", width: "100%" }}>
-        <thead>
-          <tr>
-            <th style={styles.tableHeader}>Rank</th>
-            <th style={styles.tableHeader}>Username</th>
-            <th style={styles.tableHeader}>Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {statsBoard.map((entry, index) => (
-            <tr
-              key={index}
-              style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
-            >
-              <td style={styles.tableData}>{index + 1}</td>
-              <td style={styles.tableData}>{entry.name}</td>
-              <td style={styles.tableData}>{entry.points}</td>
+    <>
+      <div style={{ padding: "0 30", overflow: "auto" }}>
+        <h1>Stats Board</h1>
+        <table style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th style={styles.tableHeader}>Rank</th>
+              <th style={styles.tableHeader}>Username</th>
+              <th style={styles.tableHeader}>Points</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {statsBoard.map((entry, index) => (
+              <tr
+                key={index}
+                style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
+              >
+                <td style={styles.tableData}>{index + 1}</td>
+                <td style={styles.tableData}>{entry.name}</td>
+                <td style={styles.tableData}>{entry.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 

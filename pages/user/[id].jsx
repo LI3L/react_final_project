@@ -8,7 +8,7 @@ import { useUser } from "../../components/UserContext";
 export default function Home() {
   const router = useRouter();
   const userId = router.query.id;
-  const { user: contextUser, setUser: setContextUser } = useUser();
+  const { user, setUser: setContextUser } = useUser();
   const [dif, setDif] = useState("");
 
   async function getUser() {

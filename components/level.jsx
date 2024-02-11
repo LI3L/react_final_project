@@ -1,7 +1,7 @@
 import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
-import { get } from "mobx";
+import { get, set } from "mobx";
 
 export default function Level({ dif }) {
   const { user, setUser: setContextUser } = useUser();
@@ -9,6 +9,7 @@ export default function Level({ dif }) {
   const [randomWordIndex, setRadomWordIndex] = useState(0);
   const [answer, setAnswer] = useState("");
   const [wrong, setWrong] = useState("");
+
   async function updateLevel() {
     try {
       await axios.post("http://localhost:3001/api/users/updateLevel", {
@@ -46,40 +47,36 @@ export default function Level({ dif }) {
           difficulty: dif,
         }
       );
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async function updatePoints() {
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/users/addPoints",
-        {
-          userId: user._id,
-          points: words[randomWordIndex].points,
-        }
-      );
-      console.log("updatePoints");
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  async function updateSuccsess() {
-    try {
+      await axios.post("http://localhost:3001/api/users/addPoints", {
+        userId: user._id,
+        points: words[randomWordIndex].points,
+      });
       await axios.post(
-        "http://localhost:3001/api/words/addSuccess/" +
-          words[randomWordIndex]._id
+        "http://localhost:3001/api/words/addSuccess/" + user._id
       );
+      setContextUser({
+        ...user,
+        points: user.points + words[randomWordIndex].points,
+        words: {
+          ...user.words,
+          [dif]: [...user.words[dif], words[randomWordIndex].name],
+        },
+        success: user.success + 1,
+      });
     } catch (err) {
       console.log(err);
     }
   }
+
   async function updateFailure() {
     try {
       await axios.post(
-        "http://localhost:3001/api/words/addFailure/" +
-          words[randomWordIndex]._id
+        "http://localhost:3001/api/words/addFailure/" + user._id
       );
+      setContextUser({
+        ...user,
+        failure: user.failure + 1,
+      });
     } catch (err) {
       console.log(err);
     }
@@ -91,7 +88,15 @@ export default function Level({ dif }) {
           "http://localhost:3001/api/words/byDifficulty/" + dif
         );
         setWords(response.data);
-        setRadomWordIndex(getRandomInt(0, response.data.length, response.data));
+        if (user.words[dif].length === response.data.length) {
+          setRadomWordIndex(-1);
+        } else {
+          let rnd = getRandomInt(0, response.data.length, response.data);
+          while (user.words[dif].includes(response.data[rnd].name)) {
+            rnd = getRandomInt(0, response.data.length, response.data);
+          }
+          setRadomWordIndex(rnd);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -102,58 +107,16 @@ export default function Level({ dif }) {
     const fetchData = async () => await getWords();
 
     fetchData();
-  }, [dif]);
+  }, [dif, user]);
 
-  const getRandomInt = (min, max, words) => {
-    try {
-      let num = Math.floor(Math.random() * (max - min) + min);
-      console.log("Random " + num);
-      let invalid = true;
-      if (user.words[dif].length === words.length) {
-        return -1;
-      }
-      let count = 0;
-      while (invalid && count < max) {
-        invalid = false;
-        for (let i = 0; i < user.words[dif].length; i++) {
-          if (user.sentences[dif][i] === words[num].name) {
-            invalid = true;
-            break;
-          }
-        }
-        if (invalid) {
-          num = Math.floor(Math.random() * (max - min) + min);
-          console.log("Invalid " + num);
-        }
-        count++;
-      }
-      if (count >= max) {
-        console.log("Exceeded maximum attempts");
-        return -1;
-      }
-      return num;
-    } catch (err) {
-      console.log(err);
-    }
+  const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
   };
+
   const checkWord = () => {
-    if (getRandomInt === -1) {
-      return;
-    } else if (answer === words[randomWordIndex].translation) {
-      updateWords();
-      updatePoints();
-      updateSuccsess();
-      setRadomWordIndex(getRandomInt(0, words.length, words));
-      setContextUser({
-        ...user,
-        points: user.points + words[randomWordIndex].points,
-        words: {
-          ...user.words,
-          [dif]: [...user.words[dif], words[randomWordIndex].name],
-        },
-      });
-      setAnswer("");
+    if (answer === words[randomWordIndex].translation) {
       setWrong("");
+      updateWords();
     } else {
       setWrong("X");
       updateFailure();
@@ -191,47 +154,40 @@ export default function Level({ dif }) {
             ? words[randomWordIndex].name
             : ""}
         </h1>
-        {randomSentenceIndex === -1 ? (
+        {randomWordIndex === -1 ? (
           <button onClick={resetLevel}>Reset Level </button>
         ) : (
-          ""
+          <>
+            <div style={{ display: "flex" }}>
+              <input
+                id="answer"
+                style={{ margin: 10 }}
+                type="text"
+                value={answer}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setAnswer(e.target.value);
+                }}
+              />
+              <h3 style={{ color: "red", fontSize: 40 }}>{wrong}</h3>
+            </div>
+            <div>
+              <button style={{ margin: 10 }} onClick={checkWord}>
+                check
+              </button>
+              <button
+                onClick={() => {
+                  setRadomWordIndex(getRandomInt(0, words.length, words));
+                  setWrong("");
+                  setAnswer("");
+                }}
+              >
+                next
+              </button>
+            </div>
+          </>
         )}
-        <div style={{ display: "flex" }}>
-          <input
-            id="answer"
-            style={{ margin: 10 }}
-            type="text"
-            value={answer}
-            onChange={(e) => {
-              e.preventDefault();
-              setAnswer(e.target.value);
-            }}
-          />
-          <h3 style={{ color: "red", fontSize: 40 }}>{wrong}</h3>
-        </div>
-        <div>
-          <button style={{ margin: 10 }} onClick={checkWord}>
-            check
-          </button>
-          <button
-            onClick={() => {
-              setRadomWordIndex(getRandomInt(0, words.length, words));
-              setWrong("");
-              setAnswer("");
-            }}
-          >
-            next
-          </button>
-        </div>
       </div>
     </div>
   );
 }
-
-// RegisterUser.getLayout = function getLayout(page) {
-//   return (
-//     <Layout>
-//       <NestedLayout>{page}</NestedLayout>
-//     </Layout>
-//   );
-// };
