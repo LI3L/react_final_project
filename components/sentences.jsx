@@ -50,21 +50,6 @@ export default function Sentences({ dif }) {
     }
   }
 
-  async function updatePoints() {
-    try {
-      await axios.post("http://localhost:3001/api/users/addPoints", {
-        userId: user._id,
-        points: sentences[randomSentenceIndex].points,
-      });
-      setContextUser({
-        ...user,
-        points: user.points + sentences[randomSentenceIndex].points,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   async function updateFail() {
     try {
       await axios.post(
@@ -73,20 +58,6 @@ export default function Sentences({ dif }) {
       setContextUser({
         ...user,
         failure: user.failure + 1,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  async function updateSuccess() {
-    try {
-      await axios.post(
-        "http://localhost:3001/api/users/addSuccess/" + user._id
-      );
-      setContextUser({
-        ...user,
-        success: user.success + 1,
       });
     } catch (err) {
       console.log(err);
