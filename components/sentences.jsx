@@ -27,12 +27,6 @@ export default function Sentences({ dif }) {
       await axios.post(
         "http://localhost:3001/api/users/addSuccess/" + user._id
       );
-      console.log(
-        "s" +
-          sentences[randomSentenceIndex].sentence +
-          "||" +
-          sentences[randomSentenceIndex].points
-      );
       setContextUser({
         ...user,
         points: user.points + sentences[randomSentenceIndex].points,
@@ -147,12 +141,39 @@ export default function Sentences({ dif }) {
         <h1>
           {randomSentenceIndex === -1
             ? "You finished this level"
-            : activeSentence + " " + randomSentenceIndex}
+            : activeSentence}
         </h1>
         <div style={{ display: "flex" }}>
           {randomSentenceIndex !== -1 &&
             words.map((word, index) => (
-              <button key={index} onClick={() => checkWord(word)}>
+              <button
+                style={{
+                  appearance: "button",
+                  backgroundColor: "#1899D6",
+                  border: "solid transparent",
+                  borderRadius: "16px",
+                  borderWidth: "0 0 4px",
+                  boxSizing: "border-box",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                  display: "inline-block",
+                  fontSize: "15px",
+                  fontWeight: "700",
+                  letterSpacing: ".8px",
+                  lineHeight: "20px",
+                  margin: "0",
+                  outline: "none",
+                  overflow: "visible",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                  touchAction: "manipulation",
+                  userSelect: "none",
+                  webkitUserSelect: "none",
+                  width: "100%",
+                }}
+                key={index}
+                onClick={() => checkWord(word)}
+              >
                 {word}
               </button>
             ))}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
-import { get, set } from "mobx";
 
 export default function Level({ dif }) {
   const { user, setUser: setContextUser } = useUser();
@@ -116,6 +115,7 @@ export default function Level({ dif }) {
   const checkWord = () => {
     if (answer === words[randomWordIndex].translation) {
       setWrong("");
+      setAnswer("");
       updateWords();
     } else {
       setWrong("X");
@@ -172,10 +172,60 @@ export default function Level({ dif }) {
               <h3 style={{ color: "red", fontSize: 40 }}>{wrong}</h3>
             </div>
             <div>
-              <button style={{ margin: 10 }} onClick={checkWord}>
+              <button
+                style={{
+                  appearance: "button",
+                  backgroundColor: "#1899D6",
+                  border: "solid transparent",
+                  borderRadius: "16px",
+                  borderWidth: "0 0 4px",
+                  boxSizing: "border-box",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                  display: "inline-block",
+                  fontSize: "15px",
+                  fontWeight: "700",
+                  letterSpacing: ".8px",
+                  lineHeight: "20px",
+                  margin: "0",
+                  outline: "none",
+                  overflow: "visible",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                  touchAction: "manipulation",
+                  userSelect: "none",
+                  webkitUserSelect: "none",
+                  width: "100%",
+                }}
+                onClick={checkWord}
+              >
                 check
               </button>
               <button
+                style={{
+                  appearance: "button",
+                  backgroundColor: "#1899D6",
+                  border: "solid transparent",
+                  borderRadius: "16px",
+                  borderWidth: "0 0 4px",
+                  boxSizing: "border-box",
+                  color: "#FFFFFF",
+                  cursor: "pointer",
+                  display: "inline-block",
+                  fontSize: "15px",
+                  fontWeight: "700",
+                  letterSpacing: ".8px",
+                  lineHeight: "20px",
+                  margin: "0",
+                  outline: "none",
+                  overflow: "visible",
+                  textAlign: "center",
+                  textTransform: "uppercase",
+                  touchAction: "manipulation",
+                  userSelect: "none",
+                  webkitUserSelect: "none",
+                  width: "100%",
+                }}
                 onClick={() => {
                   setRadomWordIndex(getRandomInt(0, words.length, words));
                   setWrong("");

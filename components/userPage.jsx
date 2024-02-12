@@ -6,6 +6,7 @@ import "./Layout/UserPage.module.css";
 import LeaderBoard from "./LeaderBoard";
 import CreateWord from "./createWord"; // corrected import name
 import CreateSentence from "./createSentence";
+import { Pai } from "./PaiChar.jsx";
 
 export default function UserPage(dif) {
   const [admin, setAdmin] = useState(false);
@@ -48,206 +49,209 @@ export default function UserPage(dif) {
   }, [dif]);
 
   return (
-    <div
-      className="user-page"
-      style={{
-        margin: 0,
-        width: "100%",
-        height: "88%",
-        display: "flex",
-        backgroundColor: "#57CC04",
-        flexDirection: "column",
-        position: "absolute",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", width: "30%" }}>
-        <LeaderBoard />
-
-        {user && admin && !adminDataWord ? (
-          <button
-            style={{
-              height: 60,
-              fontSize: 20,
-              backgroundColor: "#89e219",
-              margin: 5,
-            }} // Changed to Bootstrap Button
-            onClick={(e) => {
-              e.preventDefault();
-              setAdminDataWord(!adminDataWord);
-            }}
-          >
-            Add Word
-          </button>
-        ) : (
-          ""
-        )}
-        {user && admin && adminDataWord ? (
-          <button
-            style={{
-              height: 60,
-              fontSize: 20,
-              backgroundColor: "#89e219",
-              margin: 5,
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              setAdminDataWord(!adminDataWord);
-            }}
-          >
-            Close
-          </button>
-        ) : (
-          ""
-        )}
-
-        {user && admin && !adminDataSentence ? (
-          <button
-            style={{
-              height: 60,
-              fontSize: 20,
-              backgroundColor: "#89e219",
-              margin: 5,
-            }} // Changed to Bootstrap Button
-            onClick={(e) => {
-              e.preventDefault();
-              setAdminDataSentence(!adminDataSentence);
-            }}
-          >
-            Add Sentence
-          </button>
-        ) : (
-          ""
-        )}
-        {user && admin && adminDataSentence ? (
-          <button
-            style={{
-              height: 60,
-              fontSize: 20,
-              backgroundColor: "#89e219",
-              margin: 5,
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              setAdminDataSentence(!adminDataSentence);
-            }}
-          >
-            Close
-          </button>
-        ) : (
-          ""
-        )}
-        {user && adminDataWord ? <CreateWord /> : ""}
-        {user && adminDataSentence ? <CreateSentence /> : ""}
-      </div>
+    <>
+      <Pai />
       <div
+        className="user-page"
         style={{
           margin: 0,
-          // width: "100%",
-          flex: 3,
-          height: "10%",
+          width: "100%",
+          height: "88%",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
+          backgroundColor: "#57CC04",
           flexDirection: "column",
-          // position: "absolute",
+          position: "absolute",
         }}
       >
-        <h1>Profile</h1>
-        <h2>{user && user.name}</h2>
-        <h2>Points: {points}</h2>
+        <div style={{ display: "flex", flexDirection: "column", width: "30%" }}>
+          <LeaderBoard />
 
-        <div className="dropdowns-container">
-          <div className="dropdown-section">
-            <h2>Words:</h2>
-            <Container>
-              <Dropdown title="easy" id="basic-dropdown1">
-                {words_easy.length === 0 ? (
-                  <p>No words found for easy level</p>
-                ) : (
-                  <p>
-                    easy:
-                    {JSON.stringify(words_easy)
-                      .replace(/"/g, "")
-                      .replace(/[\[\]']+/g, "")
-                      .trim()}
-                  </p>
-                )}
-              </Dropdown>
-              <Dropdown title="medium" id="basic-dropdown2">
-                {words_medium.length === 0 ? (
-                  <p>No words found for medium level</p>
-                ) : (
-                  <p>
-                    medium:
-                    {JSON.stringify(words_medium)
-                      .replace(/"/g, "")
-                      .replace(/[\[\]']+/g, "")
-                      .trim()}
-                  </p>
-                )}
-              </Dropdown>
-              <Dropdown title="hard" id="basic-dropdown3">
-                {words_hard.length === 0 ? (
-                  <p>No words found for hard level</p>
-                ) : (
-                  <p>
-                    hard:
-                    {JSON.stringify(words_hard)
-                      .replace(/"/g, "")
-                      .replace(/[\[\]']+/g, "")
-                      .trim()}
-                  </p>
-                )}
-              </Dropdown>
-            </Container>
-          </div>
+          {user && admin && !adminDataWord ? (
+            <button
+              style={{
+                height: 60,
+                fontSize: 20,
+                backgroundColor: "#89e219",
+                margin: 5,
+              }} // Changed to Bootstrap Button
+              onClick={(e) => {
+                e.preventDefault();
+                setAdminDataWord(!adminDataWord);
+              }}
+            >
+              Add Word
+            </button>
+          ) : (
+            ""
+          )}
+          {user && admin && adminDataWord ? (
+            <button
+              style={{
+                height: 60,
+                fontSize: 20,
+                backgroundColor: "#89e219",
+                margin: 5,
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                setAdminDataWord(!adminDataWord);
+              }}
+            >
+              Close
+            </button>
+          ) : (
+            ""
+          )}
 
-          <div className="dropdown-section">
-            <h2>Sentences:</h2>
-            <Container>
-              <Dropdown title="easy" id="basic-dropdown4">
-                {sentences_easy.length === 0 ? (
-                  <p>No sentences found for easy level</p>
-                ) : (
-                  <p>
-                    easy:
-                    {JSON.stringify(sentences_easy)
-                      .replace(/"/g, "")
-                      .replace(/[\[\]']+/g, "")
-                      .trim()}
-                  </p>
-                )}
-              </Dropdown>
-              <Dropdown title="medium" id="basic-dropdown5">
-                {sentences_medium.length === 0 ? (
-                  <p>No sentences found for medium level</p>
-                ) : (
-                  <p>
-                    medium:
-                    {JSON.stringify(sentences_medium)
-                      .replace(/"/g, "")
-                      .replace(/[\[\]']+/g, "")
-                      .trim()}
-                  </p>
-                )}
-              </Dropdown>
-              <Dropdown title="hard" id="basic-dropdown6">
-                {sentences_hard.length === 0 ? (
-                  <p>No sentences found for hard level</p>
-                ) : (
-                  <p>
-                    hard:
-                    {JSON.stringify(sentences_hard)
-                      .replace(/"/g, "")
-                      .replace(/[\[\]']+/g, "")
-                      .trim()}
-                  </p>
-                )}
-              </Dropdown>
-            </Container>
+          {user && admin && !adminDataSentence ? (
+            <button
+              style={{
+                height: 60,
+                fontSize: 20,
+                backgroundColor: "#89e219",
+                margin: 5,
+              }} // Changed to Bootstrap Button
+              onClick={(e) => {
+                e.preventDefault();
+                setAdminDataSentence(!adminDataSentence);
+              }}
+            >
+              Add Sentence
+            </button>
+          ) : (
+            ""
+          )}
+          {user && admin && adminDataSentence ? (
+            <button
+              style={{
+                height: 60,
+                fontSize: 20,
+                backgroundColor: "#89e219",
+                margin: 5,
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                setAdminDataSentence(!adminDataSentence);
+              }}
+            >
+              Close
+            </button>
+          ) : (
+            ""
+          )}
+          {user && adminDataWord ? <CreateWord /> : ""}
+          {user && adminDataSentence ? <CreateSentence /> : ""}
+        </div>
+        <div
+          style={{
+            margin: 0,
+            // width: "100%",
+            flex: 3,
+            height: "10%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            flexDirection: "column",
+            // position: "absolute",
+          }}
+        >
+          <h1>Profile</h1>
+          <h2>{user && user.name}</h2>
+          <h2>Points: {points}</h2>
+
+          <div className="dropdowns-container">
+            <div className="dropdown-section">
+              <h2>Words:</h2>
+              <Container>
+                <Dropdown title="easy" id="basic-dropdown1">
+                  {words_easy.length === 0 ? (
+                    <p>No words found for easy level</p>
+                  ) : (
+                    <p>
+                      easy:
+                      {JSON.stringify(words_easy)
+                        .replace(/"/g, "")
+                        .replace(/[\[\]']+/g, "")
+                        .trim()}
+                    </p>
+                  )}
+                </Dropdown>
+                <Dropdown title="medium" id="basic-dropdown2">
+                  {words_medium.length === 0 ? (
+                    <p>No words found for medium level</p>
+                  ) : (
+                    <p>
+                      medium:
+                      {JSON.stringify(words_medium)
+                        .replace(/"/g, "")
+                        .replace(/[\[\]']+/g, "")
+                        .trim()}
+                    </p>
+                  )}
+                </Dropdown>
+                <Dropdown title="hard" id="basic-dropdown3">
+                  {words_hard.length === 0 ? (
+                    <p>No words found for hard level</p>
+                  ) : (
+                    <p>
+                      hard:
+                      {JSON.stringify(words_hard)
+                        .replace(/"/g, "")
+                        .replace(/[\[\]']+/g, "")
+                        .trim()}
+                    </p>
+                  )}
+                </Dropdown>
+              </Container>
+            </div>
+
+            <div className="dropdown-section">
+              <h2>Sentences:</h2>
+              <Container>
+                <Dropdown title="easy" id="basic-dropdown4">
+                  {sentences_easy.length === 0 ? (
+                    <p>No sentences found for easy level</p>
+                  ) : (
+                    <p>
+                      easy:
+                      {JSON.stringify(sentences_easy)
+                        .replace(/"/g, "")
+                        .replace(/[\[\]']+/g, "")
+                        .trim()}
+                    </p>
+                  )}
+                </Dropdown>
+                <Dropdown title="medium" id="basic-dropdown5">
+                  {sentences_medium.length === 0 ? (
+                    <p>No sentences found for medium level</p>
+                  ) : (
+                    <p>
+                      medium:
+                      {JSON.stringify(sentences_medium)
+                        .replace(/"/g, "")
+                        .replace(/[\[\]']+/g, "")
+                        .trim()}
+                    </p>
+                  )}
+                </Dropdown>
+                <Dropdown title="hard" id="basic-dropdown6">
+                  {sentences_hard.length === 0 ? (
+                    <p>No sentences found for hard level</p>
+                  ) : (
+                    <p>
+                      hard:
+                      {JSON.stringify(sentences_hard)
+                        .replace(/"/g, "")
+                        .replace(/[\[\]']+/g, "")
+                        .trim()}
+                    </p>
+                  )}
+                </Dropdown>
+              </Container>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
