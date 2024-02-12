@@ -6,7 +6,7 @@ import "./Layout/UserPage.module.css";
 import LeaderBoard from "./LeaderBoard";
 import CreateWord from "./createWord"; // corrected import name
 import CreateSentence from "./createSentence";
-import { Pai } from "./PaiChar.jsx";
+import PieChart from "./PieChar";
 
 export default function UserPage(dif) {
   const [admin, setAdmin] = useState(false);
@@ -50,7 +50,7 @@ export default function UserPage(dif) {
 
   return (
     <>
-      {/* <Pai /> */}
+      <PieChart />
       <div
         className="user-page"
         style={{
