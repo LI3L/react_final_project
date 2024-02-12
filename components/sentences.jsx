@@ -125,7 +125,7 @@ export default function Sentences({ dif }) {
         position: "absolute",
       }}
     >
-      <h2>Points: {user.points}</h2>
+      <h2>Points: {user && user.points}</h2>
       <div
         style={{
           margin: 0,

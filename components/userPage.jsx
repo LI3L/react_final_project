@@ -50,7 +50,7 @@ export default function UserPage(dif) {
 
   return (
     <>
-      <Pai />
+      {/* <Pai /> */}
       <div
         className="user-page"
         style={{

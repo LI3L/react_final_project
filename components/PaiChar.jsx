@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie } from "recharts";
+import { Pie } from "react-chartjs-2";
 
 export default function Pai() {
   const data = [
@@ -9,9 +9,5 @@ export default function Pai() {
     { name: "Geek-o-mania", students: 1000 },
   ];
 
-  return (
-    <PieChart width={700} height={700}>
-      <Pie data={data} dataKey="students" outerRadius={250} fill="green" />
-    </PieChart>
-  );
+  return <Pai data={data} />;
 }
