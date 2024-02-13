@@ -7,7 +7,8 @@ import LeaderBoard from "./LeaderBoard";
 import CreateWord from "./createWord"; // corrected import name
 import CreateSentence from "./createSentence";
 import PiChart from "./PieChart";
-import { set } from "mobx";
+import Popup from "reactjs-popup";
+
 const myData = [
   { name: "Category 1", value: 40 },
   { name: "Category 2", value: 20 },
@@ -70,80 +71,55 @@ export default function UserPage(dif) {
           <LeaderBoard />
 
           {user && admin && !adminDataWord ? (
-            <button
-              style={{
-                height: 60,
-                fontSize: 20,
-                backgroundColor: "#89e219",
-                margin: 5,
-              }} // Changed to Bootstrap Button
-              onClick={(e) => {
-                e.preventDefault();
-                setAdminDataWord(!adminDataWord);
-              }}
+            <Popup
+              trigger={
+                <button
+                  style={{
+                    height: 60,
+                    fontSize: 20,
+                    backgroundColor: "#89e219",
+                    margin: 5,
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  Add Word
+                </button>
+              }
+              position="top left"
             >
-              Add Word
-            </button>
-          ) : (
-            ""
-          )}
-          {user && admin && adminDataWord ? (
-            <button
-              style={{
-                height: 60,
-                fontSize: 20,
-                backgroundColor: "#89e219",
-                margin: 5,
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                setAdminDataWord(!adminDataWord);
-              }}
-            >
-              Close
-            </button>
+              <CreateWord />
+            </Popup>
           ) : (
             ""
           )}
 
           {user && admin && !adminDataSentence ? (
-            <button
-              style={{
-                height: 60,
-                fontSize: 20,
-                backgroundColor: "#89e219",
-                margin: 5,
-              }} // Changed to Bootstrap Button
-              onClick={(e) => {
-                e.preventDefault();
-                setAdminDataSentence(!adminDataSentence);
-              }}
+            <Popup
+              trigger={
+                <button
+                  style={{
+                    height: 60,
+                    fontSize: 20,
+                    backgroundColor: "#89e219",
+                    margin: 5,
+                  }} // Changed to Bootstrap Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setAdminDataSentence(!adminDataSentence);
+                  }}
+                >
+                  Add Sentence
+                </button>
+              }
+              position={"top left"}
             >
-              Add Sentence
-            </button>
+              <CreateSentence />
+            </Popup>
           ) : (
             ""
           )}
-          {user && admin && adminDataSentence ? (
-            <button
-              style={{
-                height: 60,
-                fontSize: 20,
-                backgroundColor: "#89e219",
-                margin: 5,
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                setAdminDataSentence(!adminDataSentence);
-              }}
-            >
-              Close
-            </button>
-          ) : (
-            ""
-          )}
-          {user && adminDataWord ? <CreateWord /> : ""}
-          {user && adminDataSentence ? <CreateSentence /> : ""}
         </div>
         <div
           style={{

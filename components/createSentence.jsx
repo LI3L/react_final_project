@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-export default function CreateSentence() {
+export default function CreateSentence({ headLine }) {
   const [sentence, setSentence] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [words, setWords] = useState("");
