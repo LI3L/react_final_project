@@ -2,13 +2,7 @@ import React, { useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import randomColor from "randomcolor";
 
-const data2 = [
-  { name: "Category 1", total: 40 },
-  { name: "Category 2", total: 20 },
-  { name: "Category 3", total: 30 },
-];
-
-export default function PiChart() {
+export default function PiChart(data2) {
   // Helper function to generate an array of random colors
   const generateRandomColors = (numColors) => {
     return randomColor({

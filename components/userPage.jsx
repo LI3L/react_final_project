@@ -7,6 +7,7 @@ import LeaderBoard from "./LeaderBoard";
 import CreateWord from "./createWord"; // corrected import name
 import CreateSentence from "./createSentence";
 import PiChart from "./PieChart";
+import { set } from "mobx";
 const myData = [
   { name: "Category 1", value: 40 },
   { name: "Category 2", value: 20 },
@@ -25,6 +26,7 @@ export default function UserPage(dif) {
   const [sentences_medium, setSentences_medium] = useState([]);
   const [sentences_hard, setSentences_hard] = useState([]);
   const [points, setPoints] = useState(0);
+  const [states, setStates] = useState([]);
 
   async function getData() {
     try {
@@ -40,9 +42,11 @@ export default function UserPage(dif) {
         setSentences_medium(response.data.sentences.medium);
         setSentences_hard(response.data.sentences.hard);
         setPoints(response.data.points);
+        setStates([
+          { name: "Success", value: response.data.success },
+          { name: "Failure", value: response.data.failure },
+        ]);
         if (user.admin === true) setAdmin(true); // Correct comparison operator
-        console.log(JSON.stringify(user) + "asfakjfakjnfakjn");
-        console.log(user.admin + "asfakjfakjnfakjn");
       }
     } catch (err) {
       console.log(err);
@@ -56,7 +60,7 @@ export default function UserPage(dif) {
   return (
     <>
       {/* <PieChart /> */}
-      <PiChart />
+      <PiChart data2={states} />
       {/* <div
         className="user-page"
         style={{
