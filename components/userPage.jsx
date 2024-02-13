@@ -6,7 +6,12 @@ import "./Layout/UserPage.module.css";
 import LeaderBoard from "./LeaderBoard";
 import CreateWord from "./createWord"; // corrected import name
 import CreateSentence from "./createSentence";
-import PieChart from "./PieChar";
+import PiChart from "./PieChart";
+const myData = [
+  { name: "Category 1", value: 40 },
+  { name: "Category 2", value: 20 },
+  { name: "Category 3", value: 30 },
+];
 
 export default function UserPage(dif) {
   const [admin, setAdmin] = useState(false);
@@ -50,8 +55,9 @@ export default function UserPage(dif) {
 
   return (
     <>
-      <PieChart />
-      <div
+      {/* <PieChart /> */}
+      <PiChart />
+      {/* <div
         className="user-page"
         style={{
           margin: 0,
@@ -251,7 +257,7 @@ export default function UserPage(dif) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
