@@ -10,6 +10,30 @@ export default function Sentences({ dif }) {
   const [activeSentence, setActiveSentence] = useState("");
   const [words, setWords] = useState([]);
   const [wrong, setWrong] = useState("");
+  const btnStyle = {
+    appearance: "button",
+    backgroundColor: "#1899D6",
+    border: "solid transparent",
+    borderRadius: "16px",
+    borderWidth: "0 0 4px",
+    boxSizing: "border-box",
+    color: "#FFFFFF",
+    cursor: "pointer",
+    display: "inline-block",
+    fontSize: "15px",
+    fontWeight: "700",
+    letterSpacing: ".8px",
+    lineHeight: "20px",
+    margin: "0",
+    outline: "none",
+    overflow: "visible",
+    textAlign: "center",
+    textTransform: "lowercase",
+    touchAction: "manipulation",
+    userSelect: "none",
+    webkitUserSelect: "none",
+    width: "100%",
+  };
 
   async function updateSentence() {
     try {
@@ -147,30 +171,7 @@ export default function Sentences({ dif }) {
           {randomSentenceIndex !== -1 &&
             words.map((word, index) => (
               <button
-                style={{
-                  appearance: "button",
-                  backgroundColor: "#1899D6",
-                  border: "solid transparent",
-                  borderRadius: "16px",
-                  borderWidth: "0 0 4px",
-                  boxSizing: "border-box",
-                  color: "#FFFFFF",
-                  cursor: "pointer",
-                  display: "inline-block",
-                  fontSize: "15px",
-                  fontWeight: "700",
-                  letterSpacing: ".8px",
-                  lineHeight: "20px",
-                  margin: "0",
-                  outline: "none",
-                  overflow: "visible",
-                  textAlign: "center",
-                  textTransform: "uppercase",
-                  touchAction: "manipulation",
-                  userSelect: "none",
-                  webkitUserSelect: "none",
-                  width: "100%",
-                }}
+                style={btnStyle}
                 key={index}
                 onClick={() => checkWord(word)}
               >

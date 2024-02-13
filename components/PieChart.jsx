@@ -1,27 +1,12 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import randomColor from "randomcolor";
 import { useUser } from "./UserContext";
 
-const data2 = [
-  { name: "Success", total: 10 },
-  { name: "Failure", total: 5 },
-];
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PiChart = () => {
   const { user, setUserContext } = useUser();
-  // Helper function to generate an array of random colors
-  const generateRandomColors = (numColors) => {
-    return randomColor({
-      count: numColors,
-      format: "rgba", // Use RGBA format for transparency
-    });
-  };
-
-  // Use useMemo to generate colors once and memoize the result
-  const colors = useMemo(() => generateRandomColors(data2.length), [data2]);
 
   const options = {
     maintainAspectRatio: false,
@@ -41,12 +26,12 @@ const PiChart = () => {
   };
 
   const data = {
-    labels: data2.map((entry) => entry.name),
+    labels: ["Success", "Failure"],
     datasets: [
       {
         label: "Total: ",
-        data: data2.map((entry) => entry.total),
-        backgroundColor: colors,
+        data: [user && user.success, user && user.failure],
+        backgroundColor: ["#2BEC1D", "#FF0000"],
         borderColor: "#fff",
         borderWidth: 1,
       },
@@ -54,7 +39,7 @@ const PiChart = () => {
   };
 
   return (
-    data2.length > 0 && (
+    user && (
       <div className="piContainer">
         <Doughnut data={data} options={options} />
       </div>
