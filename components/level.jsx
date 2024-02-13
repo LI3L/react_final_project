@@ -130,7 +130,7 @@ export default function Level({ dif }) {
     const fetchData = async () => await getWords();
 
     fetchData();
-  }, [dif, user]);
+  }, [dif, user.points]);
 
   const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
@@ -142,7 +142,9 @@ export default function Level({ dif }) {
       setAnswer("");
       updateWords();
     } else {
+      console.log(randomWordIndex);
       setWrong("X");
+      setAnswer("");
       updateFailure();
     }
   };

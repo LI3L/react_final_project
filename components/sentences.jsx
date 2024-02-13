@@ -121,7 +121,7 @@ export default function Sentences({ dif }) {
   useEffect(() => {
     const fetchData = async () => await getSentence();
     fetchData();
-  }, [dif, user]);
+  }, [dif, user.points]);
 
   const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
