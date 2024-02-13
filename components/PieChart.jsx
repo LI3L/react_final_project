@@ -1,13 +1,21 @@
 import React, { useMemo } from "react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import randomColor from "randomcolor";
+import { useUser } from "./UserContext";
 
-export default function PiChart(data2) {
+const data2 = [
+  { name: "Success", total: 10 },
+  { name: "Failure", total: 5 },
+];
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const PiChart = () => {
+  const { user, setUserContext } = useUser();
   // Helper function to generate an array of random colors
   const generateRandomColors = (numColors) => {
     return randomColor({
       count: numColors,
-      //   luminosity: "bright",
       format: "rgba", // Use RGBA format for transparency
     });
   };
@@ -16,6 +24,7 @@ export default function PiChart(data2) {
   const colors = useMemo(() => generateRandomColors(data2.length), [data2]);
 
   const options = {
+    maintainAspectRatio: false,
     responsive: true,
     plugins: {
       legend: {
@@ -27,6 +36,8 @@ export default function PiChart(data2) {
         position: "top",
       },
     },
+    width: 50, // Set the width of the chart
+    height: 50,
   };
 
   const data = {
@@ -49,4 +60,6 @@ export default function PiChart(data2) {
       </div>
     )
   );
-}
+};
+
+export default PiChart;

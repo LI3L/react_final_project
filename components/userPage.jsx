@@ -26,7 +26,6 @@ export default function UserPage(dif) {
   const [sentences_medium, setSentences_medium] = useState([]);
   const [sentences_hard, setSentences_hard] = useState([]);
   const [points, setPoints] = useState(0);
-  const [states, setStates] = useState([]);
 
   async function getData() {
     try {
@@ -42,10 +41,6 @@ export default function UserPage(dif) {
         setSentences_medium(response.data.sentences.medium);
         setSentences_hard(response.data.sentences.hard);
         setPoints(response.data.points);
-        setStates([
-          { name: "Success", value: response.data.success },
-          { name: "Failure", value: response.data.failure },
-        ]);
         if (user.admin === true) setAdmin(true); // Correct comparison operator
       }
     } catch (err) {
@@ -59,9 +54,7 @@ export default function UserPage(dif) {
 
   return (
     <>
-      {/* <PieChart /> */}
-      <PiChart data2={states} />
-      {/* <div
+      <div
         className="user-page"
         style={{
           margin: 0,
@@ -69,11 +62,11 @@ export default function UserPage(dif) {
           height: "88%",
           display: "flex",
           backgroundColor: "#57CC04",
-          flexDirection: "column",
+          flexDirection: "row",
           position: "absolute",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", width: "30%" }}>
+        <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
           <LeaderBoard />
 
           {user && admin && !adminDataWord ? (
@@ -157,7 +150,7 @@ export default function UserPage(dif) {
             margin: 0,
             // width: "100%",
             flex: 3,
-            height: "10%",
+
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
@@ -261,7 +254,8 @@ export default function UserPage(dif) {
             </div>
           </div>
         </div>
-      </div> */}
+        <PiChart />
+      </div>
     </>
   );
 }
