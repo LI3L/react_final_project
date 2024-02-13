@@ -9,15 +9,8 @@ import CreateSentence from "./createSentence";
 import PiChart from "./PieChart";
 import Popup from "reactjs-popup";
 
-const myData = [
-  { name: "Category 1", value: 40 },
-  { name: "Category 2", value: 20 },
-  { name: "Category 3", value: 30 },
-];
-
 export default function UserPage(dif) {
   const [admin, setAdmin] = useState(false);
-  const [adminDataWord, setAdminDataWord] = useState(false);
   const [adminDataSentence, setAdminDataSentence] = useState(false);
   const { user, setUser: setContextUser } = useUser();
   const [words_easy, setWords_easy] = useState([]);
@@ -70,7 +63,7 @@ export default function UserPage(dif) {
         <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
           <LeaderBoard />
 
-          {user && admin && !adminDataWord ? (
+          {user && admin ? (
             <Popup
               trigger={
                 <button

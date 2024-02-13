@@ -40,7 +40,7 @@ const PiChart = () => {
 
   return (
     user && (
-      <div className="piContainer">
+      <div className="piContainer" style={{ padding: "0px 20px 100px 0px" }}>
         <Doughnut data={data} options={options} />
       </div>
     )
