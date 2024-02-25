@@ -20,6 +20,8 @@ export default function UserPage(dif) {
   const [sentences_medium, setSentences_medium] = useState([]);
   const [sentences_hard, setSentences_hard] = useState([]);
   const [points, setPoints] = useState(0);
+  const [sentences, setSentences] = useState([]);
+  const [words, setWords] = useState([]);
 
   async function getData() {
     try {
@@ -35,7 +37,15 @@ export default function UserPage(dif) {
         setSentences_medium(response.data.sentences.medium);
         setSentences_hard(response.data.sentences.hard);
         setPoints(response.data.points);
-        if (user.admin === true) setAdmin(true); // Correct comparison operator
+        if (user.admin === true) {
+          setAdmin(true); // Correct comparison operator
+          const S = await axios.get("http://localhost:3001/api/sentences/");
+          setSentences(S.data);
+          const W = await axios.get("http://localhost:3001/api/words/");
+          setWords(W.data);
+          console.log(S.data);
+          console.log(W.data);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -64,52 +74,98 @@ export default function UserPage(dif) {
           <LeaderBoard />
 
           {user && admin ? (
-            <Popup
-              trigger={
-                <button
-                  style={{
-                    height: 60,
-                    fontSize: 20,
-                    backgroundColor: "#89e219",
-                    margin: 5,
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                >
-                  Add Word
-                </button>
-              }
-              position="top left"
-            >
-              <CreateWord />
-            </Popup>
+            <>
+              <Popup
+                trigger={
+                  <button
+                    style={{
+                      height: 60,
+                      fontSize: 20,
+                      backgroundColor: "#89e219",
+                      margin: 5,
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    Add Word
+                  </button>
+                }
+                position="top left"
+              >
+                <CreateWord />
+              </Popup>
+              <Popup
+                trigger={
+                  <button
+                    style={{
+                      height: 60,
+                      fontSize: 20,
+                      backgroundColor: "#89e219",
+                      margin: 5,
+                    }}
+                  >
+                    See all words
+                  </button>
+                }
+                position="top left"
+              >
+                <div style={{ backgroundColor: "white" }}>
+                  {words.map((word, index) => (
+                    <p key={index}>{word.name}</p>
+                  ))}
+                </div>
+              </Popup>
+            </>
           ) : (
             ""
           )}
 
           {user && admin && !adminDataSentence ? (
-            <Popup
-              trigger={
-                <button
-                  style={{
-                    height: 60,
-                    fontSize: 20,
-                    backgroundColor: "#89e219",
-                    margin: 5,
-                  }} // Changed to Bootstrap Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setAdminDataSentence(!adminDataSentence);
-                  }}
-                >
-                  Add Sentence
-                </button>
-              }
-              position={"top left"}
-            >
-              <CreateSentence />
-            </Popup>
+            <>
+              <Popup
+                trigger={
+                  <button
+                    style={{
+                      height: 60,
+                      fontSize: 20,
+                      backgroundColor: "#89e219",
+                      margin: 5,
+                    }} // Changed to Bootstrap Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setAdminDataSentence(!adminDataSentence);
+                    }}
+                  >
+                    Add Sentence
+                  </button>
+                }
+                position={"top left"}
+              >
+                <CreateSentence />
+              </Popup>
+              <Popup
+                trigger={
+                  <button
+                    style={{
+                      height: 60,
+                      fontSize: 20,
+                      backgroundColor: "#89e219",
+                      margin: 5,
+                    }} // Changed to Bootstrap Button
+                  >
+                    See all sentences
+                  </button>
+                }
+                position={"top left"}
+              >
+                <div style={{ backgroundColor: "white" }}>
+                  {sentences.map((sentence, index) => (
+                    <p key={index}>{sentence.sentence}</p>
+                  ))}
+                </div>
+              </Popup>
+            </>
           ) : (
             ""
           )}
