@@ -110,7 +110,15 @@ export default function UserPage(dif) {
                 }
                 position="top left"
               >
-                <div style={{ backgroundColor: "white" }}>
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    position: "absolute",
+                    overflowY: "scroll",
+                    maxHeight: "200px",
+                    width: "200px",
+                  }}
+                >
                   {words.map((word, index) => (
                     <p key={index}>{word.name}</p>
                   ))}
@@ -159,7 +167,15 @@ export default function UserPage(dif) {
                 }
                 position={"top left"}
               >
-                <div style={{ backgroundColor: "white" }}>
+                <div
+                  style={{
+                    backgroundColor: "white",
+                    position: "absolute",
+                    overflowY: "scroll",
+                    maxHeight: "200px",
+                    width: "200px",
+                  }}
+                >
                   {sentences.map((sentence, index) => (
                     <p key={index}>{sentence.sentence}</p>
                   ))}
